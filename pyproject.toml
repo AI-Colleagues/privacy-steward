@@ -27,15 +27,15 @@ docs = [
 [project]
 dependencies = []
 description = "Add your description here"
-name = "uv-template"
+name = "privacy-steward"
 readme = "README.md"
 requires-python = ">=3.12"
 version = "0.0.1"
 
 [project.urls]
-Homepage = "https://github.com/AI-Colleagues/uv-template"
-Issues = "https://github.com/AI-Colleagues/uv-template/issues"
-Source = "https://github.com/AI-Colleagues/uv-template"
+Homepage = "https://github.com/AI-Colleagues/privacy-steward"
+Issues = "https://github.com/AI-Colleagues/privacy-steward/issues"
+Source = "https://github.com/AI-Colleagues/privacy-steward"
 
 [tool.coverage.report]
 exclude_lines = [
@@ -48,7 +48,7 @@ exclude_lines = [
 [tool.coverage.run]
 branch = true
 command_line = "-m pytest"
-source = ["src/uv_template"]
+source = ["src/privacy_steward"]
 
 [tool.hatch.build.targets.wheel]
 exclude = [
@@ -101,7 +101,7 @@ select = [
 ]
 
 [tool.ruff.lint.isort]
-known-first-party = ["uv_template"]
+known-first-party = ["privacy_steward"]
 lines-after-imports = 2
 no-lines-before = ["future", "standard-library", "third-party", "first-party", "local-folder"]
 

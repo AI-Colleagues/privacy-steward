@@ -1,4 +1,4 @@
-from uv_template.main import main
+from privacy_steward.main import main
 
 
 def test_main():
