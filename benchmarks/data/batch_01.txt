@@ -1,0 +1,117 @@
+Dear Karen Patel,
+
+Thank you for your interest in Acme Corp.
+You can reach us at alice.j@acme.com or call (415) 555-2671.
+Our office is located at 42 Maple Street, Springfield, IL 62701.
+Your reference number is 2768-0402-5016-5258.
+
+Best regards,
+Alice Johnson
+
+---
+
+Dear Carol Chen,
+
+Thank you for your interest in Global Analytics LLC.
+You can reach us at g.tanaka@techco.jp or call (415) 555-2671.
+Our office is located at 100 Innovation Drive, San Francisco, CA 94103.
+Your reference number is 1930-0868-7593-5868.
+
+Best regards,
+James O'Brien
+
+---
+
+Dear David Kim,
+
+Thank you for your interest in Global Analytics LLC.
+You can reach us at bob.martinez@example.org or call +1-555-867-5309.
+Our office is located at 9 Oxford Road, London EC1A 1BB.
+Your reference number is 2202-1263-3229-6617.
+
+Best regards,
+Carol Chen
+
+---
+
+Dear Henry Dubois,
+
+Thank you for your interest in InnoLab Ltd.
+You can reach us at eva.m@firma.de or call +49 30 12345678.
+Our office is located at 42 Maple Street, Springfield, IL 62701.
+Your reference number is 6872-0322-9836-3942.
+
+Best regards,
+David Kim
+
+---
+
+Dear Liam Nguyen,
+
+Thank you for your interest in StartupXYZ.
+You can reach us at i.santos@uni.pt or call (415) 555-2671.
+Our office is located at 9 Oxford Road, London EC1A 1BB.
+Your reference number is 5832-9500-1674-0395.
+
+Best regards,
+Isabel Santos
+
+---
+
+Dear Alice Johnson,
+
+Thank you for your interest in Global Analytics LLC.
+You can reach us at bob.martinez@example.org or call +49 30 12345678.
+Our office is located at 100 Innovation Drive, San Francisco, CA 94103.
+Your reference number is 7321-0779-7516-8513.
+
+Best regards,
+Carol Chen
+
+---
+
+Dear Isabel Santos,
+
+Thank you for your interest in StartupXYZ.
+You can reach us at alice.j@acme.com or call +49 30 12345678.
+Our office is located at 100 Innovation Drive, San Francisco, CA 94103.
+Your reference number is 4139-8225-0789-5169.
+
+Best regards,
+Carol Chen
+
+---
+
+Dear Eva Müller,
+
+Thank you for your interest in StartupXYZ.
+You can reach us at james.ob@company.ie or call +44 20 7946 0958.
+Our office is located at 42 Maple Street, Springfield, IL 62701.
+Your reference number is 9767-3638-4200-5507.
+
+Best regards,
+Alice Johnson
+
+---
+
+Dear David Kim,
+
+Thank you for your interest in Acme Corp.
+You can reach us at alice.j@acme.com or call (415) 555-2671.
+Our office is located at 42 Maple Street, Springfield, IL 62701.
+Your reference number is 5245-7852-4406-3480.
+
+Best regards,
+Karen Patel
+
+---
+
+Dear Karen Patel,
+
+Thank you for your interest in Acme Corp.
+You can reach us at alice.j@acme.com or call +44 20 7946 0958.
+Our office is located at 9 Oxford Road, London EC1A 1BB.
+Your reference number is 3821-4422-9485-0989.
+
+Best regards,
+David Kim

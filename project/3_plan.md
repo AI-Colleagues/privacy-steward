@@ -5,7 +5,7 @@
 - **Version:** 0.1
 - **Author:** Shaojie Jiang
 - **Date:** 2026-05-06
-- **Status:** Draft
+- **Status:** In Progress
 
 ---
 
@@ -27,94 +27,87 @@ Build a CLI tool that redacts PII from plain-text files using the `openai/privac
 
 #### Task Checklist
 
-- [ ] Task 1.1: Update `pyproject.toml` — add `transformers`, `torch` (CPU), `typer`, `rich` as runtime dependencies
+- [x] Task 1.1: Update `pyproject.toml` — add `transformers`, `torch`, `typer`, `rich` as runtime dependencies; register `privacy-steward` console script
   - Dependencies: None
-- [ ] Task 1.2: Create `src/privacy_steward/models.py` — define `EntitySpan` dataclass
+- [x] Task 1.2: Create `src/privacy_steward/models.py` — define `EntitySpan` dataclass
   - Dependencies: Task 1.1
-- [ ] Task 1.3: Create `src/privacy_steward/pipeline.py` — implement `NERPipeline` class wrapping `transformers.pipeline("token-classification", model="openai/privacy-filter", aggregation_strategy="simple")`
+- [x] Task 1.3: Create `src/privacy_steward/pipeline.py` — implement `NERPipeline` wrapping `transformers.pipeline("token-classification", aggregation_strategy="simple")` with paragraph-level chunking for long texts
   - Dependencies: Task 1.2
-- [ ] Task 1.4: Write unit test `tests/test_pipeline.py` — smoke test: known PII sentence → at least one entity returned with score > 0.5 (mark `@pytest.mark.slow`)
+- [x] Task 1.4: Write `tests/test_pipeline.py` — `_split_paragraphs` unit tests (always run) + `NERPipeline` smoke tests (marked `@pytest.mark.slow`)
   - Dependencies: Task 1.3
-- [ ] Task 1.5: Verify `make lint` and `make test` pass
+- [x] Task 1.5: Verify `make lint` and `make test` pass
   - Dependencies: Task 1.4
 
 ---
 
 ### Milestone 2: Core Redaction Engine & Single-File CLI
 
-**Description:** Implement the redaction logic and wire it to a functional `privacy-steward redact <file>` command. Success criterion: `privacy-steward redact tests/fixtures/sample.txt` produces a correctly redacted output file alongside the input.
+**Description:** Implement the redaction logic and wire it to a functional `privacy-steward <file>` command. Success criterion: `privacy-steward tests/fixtures/sample.txt` produces a correctly redacted output file alongside the input.
+
+> **Note:** Typer 0.12+ promotes single-command apps to root level, so the CLI syntax is `privacy-steward <path>` (not `privacy-steward redact <path>`).
 
 #### Task Checklist
 
-- [ ] Task 2.1: Create `src/privacy_steward/redactor.py` — implement `redact(text, spans, placeholder)` with right-to-left span replacement
+- [x] Task 2.1: Create `src/privacy_steward/redactor.py` — `redact(text, spans, placeholder)` with right-to-left span replacement; supports `{entity_type}` template
   - Dependencies: Milestone 1
-- [ ] Task 2.2: Write unit tests for `redactor.redact` — edge cases: empty spans, overlapping spans, full-file redaction, non-ASCII text
+- [x] Task 2.2: Write `tests/test_redactor.py` — edge cases: empty spans, multiple spans, adjacent spans, placeholder template, non-ASCII text
   - Dependencies: Task 2.1
-- [ ] Task 2.3: Create `src/privacy_steward/resolver.py` — implement `resolve(input_path, output_path)` for single-file mode (derive `.redacted.txt` default)
+- [x] Task 2.3: Create `src/privacy_steward/resolver.py` — `resolve(input_path, output_path)` for file mode; derive `.redacted.txt` default
   - Dependencies: None
-- [ ] Task 2.4: Write unit tests for `resolver.resolve` — file mode: explicit output, derived output, missing input raises
+- [x] Task 2.4: Write `tests/test_resolver.py` — file mode: explicit output, derived output, missing input raises
   - Dependencies: Task 2.3
-- [ ] Task 2.5: Create `src/privacy_steward/cli.py` — Typer app with `redact` command; wire resolver → pipeline → redactor → writer for single-file case
-  - Dependencies: Task 2.1, Task 2.3
-- [ ] Task 2.6: Register `privacy-steward` console script in `pyproject.toml` pointing to `privacy_steward.cli:app`
-  - Dependencies: Task 2.5
-- [ ] Task 2.7: Add fixture file `tests/fixtures/sample.txt` with synthetic PII (names, emails, phone numbers)
+- [x] Task 2.5: Create `src/privacy_steward/writer.py` and `src/privacy_steward/reporter.py`
   - Dependencies: None
-- [ ] Task 2.8: Write integration test — invoke `privacy-steward redact tests/fixtures/sample.txt` via `subprocess`; assert output file exists and known PII strings absent
-  - Dependencies: Task 2.5, Task 2.7
-- [ ] Task 2.9: `make lint && make test` pass; update `README.md` with basic install + usage example
+- [x] Task 2.6: Create `src/privacy_steward/cli.py` — Typer app; always-on progress bar with ETA; wire resolver → pipeline → redactor → writer; `-v` prints per-file entity table
+  - Dependencies: Task 2.1, Task 2.3
+- [x] Task 2.7: Add fixture files `tests/fixtures/sample.txt` and `tests/fixtures/corpus/` (3 files, 1 subdirectory)
+  - Dependencies: None
+- [x] Task 2.8: Write `tests/test_cli.py` — integration tests via `subprocess` for single-file and directory modes (marked `@pytest.mark.slow`)
+  - Dependencies: Task 2.6, Task 2.7
+- [x] Task 2.9: `make lint && make test` pass (39/39)
   - Dependencies: Task 2.8
 
 ---
 
 ### Milestone 3: Directory Batch Processing & Output Control
 
-**Description:** Extend the CLI to handle a directory input, recursive traversal, configurable output path, and a progress bar. Success criterion: `privacy-steward redact ./corpus/ --output ./corpus_clean/` processes all `.txt` files and mirrors the directory structure.
+**Description:** Extend the CLI to handle a directory input, recursive traversal, configurable output path, and a progress bar. Success criterion: `privacy-steward ./corpus/ --output ./corpus_clean/` processes all `.txt` files and mirrors the directory structure, writing audit JSONs to `.audit/`.
 
 #### Task Checklist
 
-- [ ] Task 3.1: Extend `resolver.resolve` to handle directory input — recursive `.txt` enumeration, non-`.txt` warning, mirror tree under output root
+- [x] Task 3.1: Extend `resolver.resolve` to handle directory input — recursive `.txt` enumeration (non-`.txt` silently skipped), mirror tree under output root
   - Dependencies: Milestone 2
-- [ ] Task 3.2: Write unit tests for `resolver.resolve` — directory mode: nested dirs, mixed file types, explicit output, derived output
+- [x] Task 3.2: Write unit tests for `resolver.resolve` — directory mode: nested dirs, mixed file types, explicit output, derived output, empty dir
   - Dependencies: Task 3.1
-- [ ] Task 3.3: Add `--output` / `-o` flag to CLI; route to resolver
+- [x] Task 3.3: Add `--output` / `-o`, `--placeholder` / `-p`, `--dry-run`, `--verbose` / `-v`, `--model` flags to CLI
   - Dependencies: Task 3.1
-- [ ] Task 3.4: Add `--placeholder` / `-p` flag; support `{entity_type}` template interpolation in `redactor.redact`
-  - Dependencies: Task 2.1
-- [ ] Task 3.5: Add `--dry-run` flag — skip writer, print entity spans to stdout
-  - Dependencies: Task 2.5
-- [ ] Task 3.6: Integrate `rich.Progress` bar for directory mode; show per-file progress and ETA
+- [x] Task 3.4: Always-on `rich.Progress` bar (spinner, bar, M/N, %, elapsed, ETA); `-v` adds per-file entity table printed to stdout
   - Dependencies: Task 3.3
-- [ ] Task 3.7: Create `src/privacy_steward/reporter.py` and add `--report` flag; write `redaction_report.json` to output directory
+- [x] Task 3.5: Automatic audit dir `.audit/` always created alongside output; per-file `<stem>.audit.json` mirrors output directory tree
   - Dependencies: Task 3.3
-- [ ] Task 3.8: Add integration test for directory mode — `privacy-steward redact tests/fixtures/corpus/ --output /tmp/test_out/`; assert structure mirrored and all PII absent
-  - Dependencies: Task 3.1, Task 3.6
-- [ ] Task 3.9: `make lint && make test` pass
-  - Dependencies: Task 3.8
+- [x] Task 3.6: `--report` flag writes aggregate `redaction_report.json` to output root via `reporter.write_summary_report`
+  - Dependencies: Task 3.3
+- [x] Task 3.7: Integration tests for directory mode — structure mirrored, audit dir created, 3 audit files for 3-file corpus
+  - Dependencies: Task 3.1, Task 3.4
+- [x] Task 3.8: `make lint && make test` pass (39/39)
+  - Dependencies: Task 3.7
 
 ---
 
 ### Milestone 4: Benchmarking, Documentation & Release
 
-**Description:** Benchmark `privacy-steward` against the OpenAI reference implementation on accuracy (F1) and throughput, document results in `README.md`, and publish the package. Success criterion: `README.md` contains a reproducible benchmark table and the package is installable from PyPI.
+**Description:** Benchmark `privacy-steward` against the OpenAI reference implementation on throughput, document results in `README.md`, and publish the package. Success criterion: `README.md` contains a reproducible benchmark table.
 
 #### Task Checklist
 
-- [ ] Task 4.1: Write `benchmarks/benchmark_throughput.py` — measure tokens/second for single-file and directory modes on a synthetic 10 MB corpus; compare to `openai/privacy-filter` reference script
+- [x] Task 4.1: Write `benchmarks/generate_data.py` — generate 10 synthetic files × 10 emails each; write `benchmarks/benchmark_throughput.py` — measure tok/s for both tools, emit Markdown table to `benchmarks/results.md`
   - Dependencies: Milestone 3
-- [ ] Task 4.2: Rewrite `README.md` — replace template content with: project overview, install instructions, quick-start examples, benchmark table, advantages vs. OpenAI reference implementation
+- [x] Task 4.2: Rewrite `README.md` — project overview, install instructions, quick-start examples, output layout, options table, benchmark table, feature comparison vs. `opf`
   - Dependencies: Task 4.1
-- [ ] Task 4.3: Benchmark table content to include in README (filled after Task 4.1):
-  - UX comparison (CLI vs. library API)
-  - Throughput (tokens/s): privacy-steward vs. reference implementation
-  - Directory batch processing: supported vs. not supported
-  - Installable package: yes vs. no
-  - Offline operation: yes vs. yes
-  - Dependencies: Task 4.1
-- [ ] Task 4.4: Add GitHub Actions release workflow — publish to PyPI on version tag push
+- [ ] Task 4.3: Add GitHub Actions release workflow — publish to PyPI on version tag push
   - Dependencies: None
-- [ ] Task 4.5: Tag `v0.1.0` and verify PyPI package installs cleanly via `pip install privacy-steward`
-  - Dependencies: Task 4.2, Task 4.4
+- [ ] Task 4.4: Tag `v0.1.0` and verify PyPI package installs cleanly via `pip install privacy-steward`
+  - Dependencies: Task 4.2, Task 4.3
 
 ---
 
@@ -123,3 +116,4 @@ Build a CLI tool that redacts PII from plain-text files using the `openai/privac
 | Date | Author | Changes |
 |------|--------|---------|
 | 2026-05-06 | Shaojie Jiang | Initial draft |
+| 2026-05-06 | Shaojie Jiang | M1–M4 (tasks 1.1–4.2) implemented; updated with actual implementation notes |

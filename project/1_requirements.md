@@ -67,7 +67,7 @@ PII leakage in text datasets is a pervasive risk. OpenAI released the `privacy-f
 
 | ID | Requirement |
 |----|-------------|
-| R01 | `privacy-steward redact <path>` where `<path>` is a file or directory |
+| R01 | `privacy-steward <path>` where `<path>` is a file or directory (single-command CLI, no subcommand in v1) |
 | R02 | Default output: alongside input with `.redacted` suffix before the extension (e.g. `notes.txt` → `notes.redacted.txt`) |
 | R03 | `--output` / `-o <path>` overrides the destination (file when input is file; directory when input is directory) |
 | R04 | Recursive directory traversal; only `.txt` files are processed; other files are ignored with a warning |

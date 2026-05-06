@@ -25,12 +25,20 @@ docs = [
 ]
 
 [project]
-dependencies = []
-description = "Add your description here"
+dependencies = [
+  "rich>=13.0",
+  "torch>=2.0",
+  "transformers>=4.40",
+  "typer>=0.12",
+]
+description = "CLI tool to redact PII from text files using the openai/privacy-filter model"
 name = "privacy-steward"
 readme = "README.md"
 requires-python = ">=3.12"
 version = "0.0.1"
+
+[project.scripts]
+privacy-steward = "privacy_steward.cli:app"
 
 [project.urls]
 Homepage = "https://github.com/AI-Colleagues/privacy-steward"
@@ -44,6 +52,9 @@ exclude_lines = [
   "if TYPE_CHECKING:",
   "if typing.TYPE_CHECKING:"
 ]
+
+[tool.pytest.ini_options]
+markers = ["slow: marks tests that need the model (deselect with -m 'not slow')"]
 
 [tool.coverage.run]
 branch = true
