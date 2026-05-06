@@ -7,7 +7,9 @@ from privacy_steward.models import EntitySpan
 
 
 DEFAULT_MODEL = "openai/privacy-filter"
-_CHUNK_SIZE = 2_000  # characters; well within 512-token window for typical prose
+# The model supports up to 131 072 tokens; 64 000 chars keeps documents together
+# so the model has full context and avoids mid-letter chunk boundaries.
+_CHUNK_SIZE = 64_000
 
 
 class NERPipeline:
@@ -45,19 +47,47 @@ class NERPipeline:
                 )
             # +2 accounts for the '\n\n' separator between chunks in the original text
             offset += len(chunk) + 2
-        return _merge_adjacent(spans)
+        spans = _trim_spans_whitespace(spans, text)
+        return _merge_adjacent(spans, text)
 
 
-def _merge_adjacent(spans: list[EntitySpan]) -> list[EntitySpan]:
-    """Merge adjacent or overlapping spans into a single span.
+def _trim_spans_whitespace(spans: list[EntitySpan], text: str) -> list[EntitySpan]:
+    """Strip leading/trailing whitespace from each span's character range.
+
+    The BPE tokenizer bundles the preceding space into the token (e.g.
+    "ĠKaren" covers " Karen" at offsets 4–10).  Without trimming, redacting
+    span (4, 10) on "Dear Karen," produces "Dear<TAG>," — the space is eaten.
+    """
+    trimmed: list[EntitySpan] = []
+    for span in spans:
+        start, end = span.start, span.end
+        while start < end and text[start].isspace():
+            start += 1
+        while end > start and text[end - 1].isspace():
+            end -= 1
+        if end > start:
+            trimmed.append(
+                EntitySpan(
+                    start=start,
+                    end=end,
+                    entity_type=span.entity_type,
+                    score=span.score,
+                    word=text[start:end],
+                )
+            )
+    return trimmed
+
+
+def _merge_adjacent(spans: list[EntitySpan], text: str = "") -> list[EntitySpan]:
+    """Merge adjacent or whitespace-separated spans into a single span.
 
     The model tokenizes at subword boundaries, so a single entity like
-    "alice.j@acme.com" may be returned as two abutting spans (".com" split
-    off separately).  Without merging, the redactor produces doubled tags
-    and garbled surrounding text.
+    "Karen Patel" may come back as two S-tagged spans ("Karen" and "Patel")
+    separated by a space.  Merging any pair whose gap consists solely of
+    whitespace collapses them into one placeholder.
 
-    For spans that touch or overlap, the merged span takes the entity_type
-    and score of the highest-scoring constituent.
+    For spans that overlap or whose gap is all-whitespace, the merged span
+    takes the entity_type and score of the highest-scoring constituent.
     """
     if not spans:
         return []
@@ -65,14 +95,15 @@ def _merge_adjacent(spans: list[EntitySpan]) -> list[EntitySpan]:
     merged: list[EntitySpan] = []
     current = sorted_spans[0]
     for span in sorted_spans[1:]:
-        if span.start <= current.end:
+        gap = text[current.end : span.start] if text else ""
+        if not gap or gap.isspace():
             best = current if current.score >= span.score else span
             current = EntitySpan(
                 start=current.start,
                 end=max(current.end, span.end),
                 entity_type=best.entity_type,
                 score=best.score,
-                word=current.word + span.word,
+                word=current.word + gap + span.word,
             )
         else:
             merged.append(current)

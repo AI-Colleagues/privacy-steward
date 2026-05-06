@@ -2,7 +2,12 @@
 
 import pytest
 from privacy_steward.models import EntitySpan
-from privacy_steward.pipeline import NERPipeline, _merge_adjacent, _split_paragraphs
+from privacy_steward.pipeline import (
+    NERPipeline,
+    _merge_adjacent,
+    _split_paragraphs,
+    _trim_spans_whitespace,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -47,8 +52,12 @@ def test_split_paragraphs_single_large_paragraph_kept() -> None:
 # ---------------------------------------------------------------------------
 
 
-def _make_span(start: int, end: int, entity_type: str = "PER", score: float = 0.99) -> EntitySpan:
-    return EntitySpan(start=start, end=end, entity_type=entity_type, score=score, word="x")
+def _make_span(
+    start: int, end: int, entity_type: str = "PER", score: float = 0.99
+) -> EntitySpan:
+    return EntitySpan(
+        start=start, end=end, entity_type=entity_type, score=score, word="x"
+    )
 
 
 def test_merge_adjacent_empty() -> None:
@@ -61,11 +70,12 @@ def test_merge_adjacent_single_span() -> None:
 
 
 def test_merge_adjacent_non_touching_spans_unchanged() -> None:
-    spans = [_make_span(0, 5), _make_span(10, 15)]
-    result = _merge_adjacent(spans)
+    text = "Hello world, goodbye."
+    spans = [_make_span(0, 5), _make_span(13, 20)]
+    result = _merge_adjacent(spans, text)
     assert len(result) == 2
     assert result[0].start == 0 and result[0].end == 5
-    assert result[1].start == 10 and result[1].end == 15
+    assert result[1].start == 13 and result[1].end == 20
 
 
 def test_merge_adjacent_touching_spans_merged() -> None:
@@ -102,6 +112,61 @@ def test_merge_adjacent_three_consecutive() -> None:
     result = _merge_adjacent(spans)
     assert len(result) == 1
     assert result[0].start == 0 and result[0].end == 15
+
+
+def test_merge_adjacent_whitespace_gap_merged() -> None:
+    """Spans separated by only whitespace should collapse to one (e.g. 'Karen Patel')."""
+    text = "Dear Karen Patel,"
+    # After trimming, "Karen" is at (5,10) and "Patel" is at (11,16); gap=" "
+    spans = [_make_span(5, 10), _make_span(11, 16)]
+    result = _merge_adjacent(spans, text)
+    assert len(result) == 1
+    assert result[0].start == 5 and result[0].end == 16
+
+
+def test_merge_adjacent_non_whitespace_gap_not_merged() -> None:
+    """Spans with non-whitespace text between them must stay separate."""
+    text = "Alice called Bob"
+    spans = [_make_span(0, 5), _make_span(13, 16)]  # "Alice" and "Bob"
+    result = _merge_adjacent(spans, text)
+    assert len(result) == 2
+
+
+# ---------------------------------------------------------------------------
+# _trim_spans_whitespace — pure function, always runs
+# ---------------------------------------------------------------------------
+
+
+def test_trim_spans_whitespace_strips_leading_space() -> None:
+    """BPE tokens include leading space; trim should remove it."""
+    text = "Dear Karen Patel,"
+    # " Karen" is at (4,10) — includes the space after "Dear"
+    spans = [_make_span(4, 10)]
+    result = _trim_spans_whitespace(spans, text)
+    assert len(result) == 1
+    assert result[0].start == 5  # space at 4 stripped
+    assert result[0].end == 10
+
+
+def test_trim_spans_whitespace_strips_trailing_space() -> None:
+    text = "Hello world  "
+    spans = [_make_span(0, 13)]
+    result = _trim_spans_whitespace(spans, text)
+    assert result[0].end == 11  # trailing spaces removed
+
+
+def test_trim_spans_whitespace_drops_all_whitespace_span() -> None:
+    text = "Hello   world"
+    spans = [_make_span(5, 8)]  # three spaces
+    result = _trim_spans_whitespace(spans, text)
+    assert result == []
+
+
+def test_trim_spans_whitespace_no_change_when_no_whitespace() -> None:
+    text = "Karen"
+    spans = [_make_span(0, 5)]
+    result = _trim_spans_whitespace(spans, text)
+    assert result[0].start == 0 and result[0].end == 5
 
 
 # ---------------------------------------------------------------------------
