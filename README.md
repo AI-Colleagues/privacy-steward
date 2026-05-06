@@ -141,7 +141,7 @@ single process.
 | **mean** | **566** | **24.9** | **50.9** | **2.0×** |
 
 _Benchmarks are reproducible: `uv run python benchmarks/benchmark_throughput.py`_
-_(requires `benchmarks/data/` — run `generate_data.py` first)._
+_(requires `benchmarks/data/` to be present)._
 
 ---
 
@@ -152,6 +152,5 @@ uv sync                                  # install all deps
 make lint                                # ruff + mypy
 make test                                # fast unit tests only
 pytest -m slow                           # integration tests (require model)
-uv run python benchmarks/generate_data.py    # regenerate benchmark corpus
 uv run python benchmarks/benchmark_throughput.py  # run benchmarks
 ```

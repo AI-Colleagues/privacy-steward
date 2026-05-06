@@ -12,7 +12,7 @@ Requirements:
 """
 
 from __future__ import annotations
-
+import math
 import os
 import subprocess
 import sys
@@ -75,6 +75,7 @@ def _throughput(elapsed: float, tokens: int) -> int:
 
 
 def run_benchmarks() -> list[dict]:
+    """Run the benchmark suite and return rows for the results table."""
     corpora = sorted(DATA_DIR.glob("*.txt"))
     if not corpora:
         print("No benchmark data found — run generate_data.py first.", file=sys.stderr)
@@ -107,10 +108,14 @@ def run_benchmarks() -> list[dict]:
             t0 = time.perf_counter()
             subprocess.run(
                 [
-                    str(OPF_BIN), "redact",
-                    "-f", str(corpus),
-                    "--device", "cpu",
-                    "--format", "text",
+                    str(OPF_BIN),
+                    "redact",
+                    "-f",
+                    str(corpus),
+                    "--device",
+                    "cpu",
+                    "--format",
+                    "text",
                 ],
                 capture_output=True,
                 text=True,
@@ -133,7 +138,9 @@ def run_benchmarks() -> list[dict]:
                 "tokens": tokens,
                 "ps_elapsed": round(ps_elapsed, 2),
                 "ps_tps": ps_tps,
-                "opf_elapsed": round(opf_elapsed, 2) if opf_elapsed == opf_elapsed else "N/A",
+                "opf_elapsed": round(opf_elapsed, 2)
+                if math.isfinite(opf_elapsed)
+                else "N/A",
                 "opf_tps": opf_tps,
                 "speedup": speedup,
             }
@@ -149,20 +156,41 @@ def _render_markdown(rows: list[dict]) -> str:
         "Both tools use the same `openai/privacy-filter` model weights.",
         "Benchmarks run on Apple M-series CPU (single process, no GPU).",
         "",
-        "| Corpus | Size | Tokens | privacy-steward (s) | privacy-steward (tok/s) | opf (s) | opf (tok/s) | Speedup |",
-        "|--------|------|--------|--------------------:|------------------------:|--------:|------------:|---------|",
+        (
+            "| Corpus | Size | Tokens | privacy-steward (s) | privacy-steward "
+            "(tok/s) | opf (s) | opf (tok/s) | Speedup |"
+        ),
+        (
+            "|--------|------|--------|--------------------:|------------------------:"
+            "|--------:|------------:|---------|"
+        ),
     ]
     for r in rows:
         ps_s = f"{r['ps_elapsed']:.2f}"
         ps_tps = f"{r['ps_tps']:,}"
-        opf_s = f"{r['opf_elapsed']:.2f}" if isinstance(r["opf_elapsed"], float) else r["opf_elapsed"]
-        opf_tps = f"{r['opf_tps']:,}" if r["opf_tps"] else "N/A"
-        speedup = f"{r['speedup']:.2f}×" if isinstance(r["speedup"], float) and r["speedup"] == r["speedup"] else "N/A"
-        lines.append(
-            f"| {r['corpus']} | {r['size_kb']} KB | {r['tokens']:,} "
-            f"| {ps_s} | {ps_tps} | {opf_s} | {opf_tps} | {speedup} |"
+        opf_s = (
+            f"{r['opf_elapsed']:.2f}"
+            if isinstance(r["opf_elapsed"], float)
+            else r["opf_elapsed"]
         )
-    lines += ["", "_Speedup = opf_elapsed / privacy-steward_elapsed (higher is better for privacy-steward)._", ""]
+        opf_tps = f"{r['opf_tps']:,}" if r["opf_tps"] else "N/A"
+        speedup = (
+            f"{r['speedup']:.2f}×"
+            if isinstance(r["speedup"], float) and r["speedup"] == r["speedup"]
+            else "N/A"
+        )
+        lines.append(
+            f"| {r['corpus']} | {r['size_kb']} KB | {r['tokens']:,} | "
+            f"{ps_s} | {ps_tps} | {opf_s} | {opf_tps} | {speedup} |"
+        )
+    lines += [
+        "",
+        (
+            "_Speedup = opf_elapsed / privacy-steward_elapsed "
+            "(higher is better for privacy-steward)._"
+        ),
+        "",
+    ]
     return "\n".join(lines)
 
 

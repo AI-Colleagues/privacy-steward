@@ -1,0 +1,109 @@
+Client intake form 1
+Name: Henry Dubois
+Preferred contact: i.santos@uni.pt / +31 20 123 4567
+Home address: 12 Rue de Rivoli, 75001 Paris
+Appointment date: 31/12/2025
+Client portal: https://support.global-analytics.io/ticket/GA-5539
+Account number: 4801-6245-6506-0983
+Reason for visit: routine administrative consultation in a fictional clinic.
+Check-in secret phrase: TEMP-PASS-8841
+Staff note: use this record only for mock PII detection testing.
+
+Client intake form 2
+Name: James O'Brien
+Preferred contact: henry.dubois@startupxyz.fr / (415) 555-2671
+Home address: Keizersgracht 123, 1015 CJ Amsterdam
+Appointment date: 2026-05-07
+Client portal: https://support.global-analytics.io/ticket/GA-5539
+Account number: 8499-1216-5585-2398
+Reason for visit: routine administrative consultation in a fictional clinic.
+Check-in secret phrase: vault-token-demo-19aa
+Staff note: use this record only for mock PII detection testing.
+
+Client intake form 3
+Name: James O'Brien
+Preferred contact: alice.j@acme.com / (415) 555-2671
+Home address: 42 Maple Street, Springfield, IL 62701
+Appointment date: 2025-11-03
+Client portal: https://files.example.org/private/report-77
+Account number: 7872-9825-9526-9495
+Reason for visit: routine administrative consultation in a fictional clinic.
+Check-in secret phrase: secret_phrase: blue-river-lamp
+Staff note: use this record only for mock PII detection testing.
+
+Client intake form 4
+Name: Amelia Wright
+Preferred contact: james.ob@company.ie / +31 20 123 4567
+Home address: Keizersgracht 123, 1015 CJ Amsterdam
+Appointment date: 31/12/2025
+Client portal: https://intranet.example.net/secrets/vault-14
+Account number: 4705-5169-4097-4993
+Reason for visit: routine administrative consultation in a fictional clinic.
+Check-in secret phrase: otp_seed_mock_JBSWY3DPEHPK3PXP
+Staff note: use this record only for mock PII detection testing.
+
+Client intake form 5
+Name: Alice Johnson
+Preferred contact: g.tanaka@techco.jp / +44 20 7946 0958
+Home address: 100 Innovation Drive, San Francisco, CA 94103
+Appointment date: 2026-05-07
+Client portal: https://intranet.example.net/secrets/vault-14
+Account number: 6230-9130-7562-6368
+Reason for visit: routine administrative consultation in a fictional clinic.
+Check-in secret phrase: secret_phrase: blue-river-lamp
+Staff note: use this record only for mock PII detection testing.
+
+Client intake form 6
+Name: Noah Schmidt
+Preferred contact: i.santos@uni.pt / +351 21 123 4567
+Home address: 12 Rue de Rivoli, 75001 Paris
+Appointment date: 31/12/2025
+Client portal: https://portal.example.com/case/alpha-9182
+Account number: 2838-5786-5278-5854
+Reason for visit: routine administrative consultation in a fictional clinic.
+Check-in secret phrase: secret_phrase: blue-river-lamp
+Staff note: use this record only for mock PII detection testing.
+
+Client intake form 7
+Name: Isabel Santos
+Preferred contact: david.kim@innolab.co.uk / +1-555-867-5309
+Home address: 9 Oxford Road, London EC1A 1BB
+Appointment date: 2026-05-07
+Client portal: https://files.example.org/private/report-77
+Account number: 3443-7575-8441-9866
+Reason for visit: routine administrative consultation in a fictional clinic.
+Check-in secret phrase: TEMP-PASS-8841
+Staff note: use this record only for mock PII detection testing.
+
+Client intake form 8
+Name: Marco Silva
+Preferred contact: carol.chen@global-analytics.io / +49 30 12345678
+Home address: 42 Maple Street, Springfield, IL 62701
+Appointment date: 04/18/2026
+Client portal: https://portal.example.com/case/alpha-9182
+Account number: 5747-3384-8421-9933
+Reason for visit: routine administrative consultation in a fictional clinic.
+Check-in secret phrase: sk_test_51MockSecret9xQ
+Staff note: use this record only for mock PII detection testing.
+
+Client intake form 9
+Name: Nora van Dijk
+Preferred contact: james.ob@company.ie / +1-555-867-5309
+Home address: Rua Augusta 50, 1100-053 Lisbon
+Appointment date: 2025-11-03
+Client portal: https://portal.example.com/case/alpha-9182
+Account number: 1657-1208-2677-3454
+Reason for visit: routine administrative consultation in a fictional clinic.
+Check-in secret phrase: otp_seed_mock_JBSWY3DPEHPK3PXP
+Staff note: use this record only for mock PII detection testing.
+
+Client intake form 10
+Name: Alice Johnson
+Preferred contact: karen.patel@example.net / +33 1 42 68 53 00
+Home address: Unter den Linden 8, 10117 Berlin
+Appointment date: 2025-11-03
+Client portal: https://intranet.example.net/secrets/vault-14
+Account number: 0262-0672-4004-9915
+Reason for visit: routine administrative consultation in a fictional clinic.
+Check-in secret phrase: TEMP-PASS-8841
+Staff note: use this record only for mock PII detection testing.
