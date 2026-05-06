@@ -26,7 +26,7 @@ from privacy_steward.writer import write_text
 
 app = typer.Typer(
     name="privacy-steward",
-    help="Redact PII from text files using openai/privacy-filter.",
+    help="Redact PII from text files using the official OpenAI Privacy Filter runtime.",
     add_completion=False,
 )
 
@@ -84,10 +84,23 @@ def redact_cmd(  # noqa: PLR0913, C901, PLR0912, PLR0915
             help="Print per-file entity details alongside the progress bar.",
         ),
     ] = False,
-    model: Annotated[
+    checkpoint: Annotated[
+        str | None,
+        typer.Option(
+            "--checkpoint",
+            help=(
+                "Official OPF checkpoint directory. Defaults to OPF_CHECKPOINT "
+                "or ~/.opf/privacy_filter."
+            ),
+        ),
+    ] = None,
+    device: Annotated[
         str,
-        typer.Option("--model", help="HuggingFace model ID."),
-    ] = DEFAULT_MODEL,
+        typer.Option(
+            "--device",
+            help="Inference device for the official OPF runtime (cpu or cuda).",
+        ),
+    ] = "cpu",
 ) -> None:
     """Redact PII from INPUT_PATH (file or directory of .txt files).
 
@@ -108,10 +121,14 @@ def redact_cmd(  # noqa: PLR0913, C901, PLR0912, PLR0915
         _err.print("[yellow]Warning:[/yellow] no .txt files found — nothing to do.")
         raise typer.Exit(code=0)
 
+    if device not in {"cpu", "cuda"}:
+        _err.print("[red]Error:[/red] --device must be one of: cpu, cuda")
+        raise typer.Exit(code=1)
+
     try:
-        pipe = NERPipeline(model_id=model)
+        pipe = NERPipeline(checkpoint=checkpoint, device=device)
     except Exception as exc:  # noqa: BLE001
-        _err.print(f"[red]Error:[/red] failed to load model: {exc}")
+        _err.print(f"[red]Error:[/red] failed to load checkpoint: {exc}")
         raise typer.Exit(code=1) from exc
 
     out_root = output_root(pairs)
@@ -164,7 +181,11 @@ def redact_cmd(  # noqa: PLR0913, C901, PLR0912, PLR0915
             progress.advance(task)
 
     if report and results and not dry_run:
-        report_path = write_summary_report(results, out_root, model)
+        report_path = write_summary_report(
+            results,
+            out_root,
+            checkpoint or DEFAULT_MODEL,
+        )
         if verbose:
             _console.print(f"Report written to [bold]{report_path}[/bold]")
 

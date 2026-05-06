@@ -2,7 +2,7 @@
 
 from pathlib import Path
 import pytest
-from privacy_steward.resolver import resolve
+from privacy_steward.resolver import output_root, resolve
 
 
 # ---------------------------------------------------------------------------
@@ -92,3 +92,36 @@ def test_resolve_dir_empty_returns_empty_list(tmp_path: Path) -> None:
 def test_resolve_dir_missing_raises(tmp_path: Path) -> None:
     with pytest.raises(FileNotFoundError):
         resolve(tmp_path / "missing_dir")
+
+
+def test_output_root_single_destination(tmp_path: Path) -> None:
+    dest = tmp_path / "out" / "notes.redacted.txt"
+
+    assert output_root([(tmp_path / "notes.txt", dest)]) == dest.parent
+
+
+def test_output_root_finds_common_parent(tmp_path: Path) -> None:
+    pairs = [
+        (tmp_path / "a.txt", tmp_path / "left" / "a.redacted.txt"),
+        (tmp_path / "b.txt", tmp_path / "right" / "b.redacted.txt"),
+    ]
+
+    assert output_root(pairs) == tmp_path
+
+
+def test_output_root_empty_raises() -> None:
+    with pytest.raises(ValueError):
+        output_root([])
+
+
+def test_resolve_neither_file_nor_dir_raises(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    path = tmp_path / "mystery"
+    path.write_text("hello", encoding="utf-8")
+
+    monkeypatch.setattr(Path, "is_file", lambda self: False)
+    monkeypatch.setattr(Path, "is_dir", lambda self: False)
+
+    with pytest.raises(ValueError):
+        resolve(path)
