@@ -104,6 +104,18 @@ def _require_int(
     return value
 
 
+def _require_float(
+    value: object,
+    *,
+    context: str,
+    field: str,
+) -> float:
+    """Return *value* as a float or raise a context-rich validation error."""
+    if isinstance(value, bool) or not isinstance(value, int | float):
+        raise ValueError(f"{context} {field} must be a number, got {value!r}")
+    return float(value)
+
+
 def _require_nonempty_string(
     value: object,
     *,
@@ -341,8 +353,90 @@ class ModelConfig:
                 f"{', '.join(missing)}"
             )
 
+        num_hidden_layers = _require_int(
+            config_values["num_hidden_layers"],
+            context=context,
+            field="num_hidden_layers",
+        )
+        num_experts = _require_int(
+            config_values["num_experts"], context=context, field="num_experts"
+        )
+        experts_per_token = _require_int(
+            config_values["experts_per_token"],
+            context=context,
+            field="experts_per_token",
+        )
+        vocab_size = _require_int(
+            config_values["vocab_size"], context=context, field="vocab_size"
+        )
+        num_labels = _require_int(
+            config_values["num_labels"], context=context, field="num_labels"
+        )
+        hidden_size = _require_int(
+            config_values["hidden_size"], context=context, field="hidden_size"
+        )
+        intermediate_size = _require_int(
+            config_values["intermediate_size"],
+            context=context,
+            field="intermediate_size",
+        )
+        head_dim = _require_int(
+            config_values["head_dim"], context=context, field="head_dim"
+        )
+        num_attention_heads = _require_int(
+            config_values["num_attention_heads"],
+            context=context,
+            field="num_attention_heads",
+        )
+        num_key_value_heads = _require_int(
+            config_values["num_key_value_heads"],
+            context=context,
+            field="num_key_value_heads",
+        )
+        bidirectional_context_size = _require_int(
+            config_values["bidirectional_context_size"],
+            context=context,
+            field="bidirectional_context_size",
+        )
+        initial_context_length = _require_int(
+            config_values["initial_context_length"],
+            context=context,
+            field="initial_context_length",
+        )
+        rope_theta = _require_float(
+            config_values["rope_theta"], context=context, field="rope_theta"
+        )
+        rope_scaling_factor = _require_float(
+            config_values["rope_scaling_factor"],
+            context=context,
+            field="rope_scaling_factor",
+        )
+        rope_ntk_alpha = _require_float(
+            config_values["rope_ntk_alpha"], context=context, field="rope_ntk_alpha"
+        )
+        rope_ntk_beta = _require_float(
+            config_values["rope_ntk_beta"], context=context, field="rope_ntk_beta"
+        )
+
         try:
-            return cls(**config_values)
+            return cls(
+                num_hidden_layers=num_hidden_layers,
+                num_experts=num_experts,
+                experts_per_token=experts_per_token,
+                vocab_size=vocab_size,
+                num_labels=num_labels,
+                hidden_size=hidden_size,
+                intermediate_size=intermediate_size,
+                head_dim=head_dim,
+                num_attention_heads=num_attention_heads,
+                num_key_value_heads=num_key_value_heads,
+                bidirectional_context_size=bidirectional_context_size,
+                initial_context_length=initial_context_length,
+                rope_theta=rope_theta,
+                rope_scaling_factor=rope_scaling_factor,
+                rope_ntk_alpha=rope_ntk_alpha,
+                rope_ntk_beta=rope_ntk_beta,
+            )
         except TypeError as exc:
             raise ValueError(
                 f"Invalid model config payload at {context}: {exc}"
@@ -417,6 +511,8 @@ class RotaryEmbedding(torch.nn.Module):
             self.max_position_embeddings, device=torch.device("cpu")
         )
         target_device = device or torch.device("cpu")
+        self.cos_cache: torch.Tensor
+        self.sin_cache: torch.Tensor
         self.register_buffer("cos_cache", cos.to(target_device), persistent=False)
         self.register_buffer("sin_cache", sin.to(target_device), persistent=False)
 
@@ -473,6 +569,8 @@ class RotaryEmbedding(torch.nn.Module):
     ) -> tuple[torch.Tensor, torch.Tensor]:
         """Rotate query and key tensors in-place shape-preserving form."""
         num_tokens = query.shape[0]
+        cos_cache: torch.Tensor
+        sin_cache: torch.Tensor
         if num_tokens > self.cos_cache.shape[0]:
             cos, sin = self._compute_cos_sin(num_tokens, device=torch.device("cpu"))
             self.cos_cache = cos.to(query.device)
@@ -1447,19 +1545,21 @@ def build_redacted_text(text: str, entities: Sequence[dict[str, object]]) -> str
 
     redacted_parts: list[str] = []
     cursor = 0
-    sorted_entities = sorted(
-        entities,
-        key=lambda item: (
-            int(item.get("start", 0)),
-            int(item.get("end", 0)),
-        ),
-    )
-    for entity in sorted_entities:
-        start_raw = entity.get("start")
-        end_raw = entity.get("end")
-        label_raw = entity.get("entity")
-        if not isinstance(start_raw, int) or not isinstance(end_raw, int):
+    sorted_entities: list[tuple[int, int, dict[str, object]]] = []
+    for entity in entities:
+        try:
+            start_raw = _require_int(
+                entity.get("start"), context="redaction entity", field="start"
+            )
+            end_raw = _require_int(
+                entity.get("end"), context="redaction entity", field="end"
+            )
+        except ValueError:
             continue
+        sorted_entities.append((start_raw, end_raw, entity))
+    sorted_entities.sort(key=lambda item: (item[0], item[1]))
+    for start_raw, end_raw, entity in sorted_entities:
+        label_raw = entity.get("entity")
         if not isinstance(label_raw, str):
             continue
         if start_raw < cursor or start_raw >= end_raw:
@@ -1491,14 +1591,23 @@ class NERPipeline:
         source_text, detected = predict_text(self._runtime, text, self._decoder)
         spans = []
         for entity in detected:
-            start = int(entity["start"])
-            end = int(entity["end"])
-            entity_type = str(entity["entity"])
+            try:
+                start = _require_int(
+                    entity.get("start"), context="detected entity", field="start"
+                )
+                end = _require_int(
+                    entity.get("end"), context="detected entity", field="end"
+                )
+            except ValueError:
+                continue
+            entity_type_raw = entity.get("entity")
+            if not isinstance(entity_type_raw, str):
+                continue
             spans.append(
                 EntitySpan(
                     start=start,
                     end=end,
-                    entity_type=entity_type,
+                    entity_type=entity_type_raw,
                     score=1.0,
                     word=source_text[start:end],
                 )

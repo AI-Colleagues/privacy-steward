@@ -1,8 +1,10 @@
 """Unit tests for the path resolver."""
 
+from __future__ import annotations
+import os
 from pathlib import Path
 import pytest
-from privacy_steward.resolver import resolve
+from privacy_steward.resolver import output_root, resolve
 
 
 # ---------------------------------------------------------------------------
@@ -92,3 +94,32 @@ def test_resolve_dir_empty_returns_empty_list(tmp_path: Path) -> None:
 def test_resolve_dir_missing_raises(tmp_path: Path) -> None:
     with pytest.raises(FileNotFoundError):
         resolve(tmp_path / "missing_dir")
+
+
+def test_resolve_neither_file_nor_dir_raises(tmp_path: Path) -> None:
+    fifo = tmp_path / "mystery"
+    os.mkfifo(fifo)
+
+    with pytest.raises(ValueError):
+        resolve(fifo)
+
+
+def test_output_root_single_pair_returns_parent(tmp_path: Path) -> None:
+    dest = tmp_path / "out" / "notes.redacted.txt"
+
+    assert output_root([(tmp_path / "notes.txt", dest)]) == dest.parent
+
+
+def test_output_root_multiple_pairs_finds_common_parent(tmp_path: Path) -> None:
+    root = tmp_path / "out"
+    pairs = [
+        (tmp_path / "a.txt", root / "left" / "a.redacted.txt"),
+        (tmp_path / "b.txt", root / "right" / "deep" / "b.redacted.txt"),
+    ]
+
+    assert output_root(pairs) == root
+
+
+def test_output_root_empty_raises() -> None:
+    with pytest.raises(ValueError):
+        output_root([])

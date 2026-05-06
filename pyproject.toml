@@ -27,6 +27,7 @@ docs = [
 [project]
 dependencies = [
   "huggingface-hub>=0.20",
+  "numpy>=1.26",
   "rich>=13.0",
   "safetensors>=0.4",
   "tiktoken>=0.7",
