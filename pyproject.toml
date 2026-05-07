@@ -38,7 +38,7 @@ description = "CLI tool to redact PII from text files using the openai/privacy-f
 name = "privacy-steward"
 readme = "README.md"
 requires-python = ">=3.12"
-version = "0.0.1"
+version = "0.1.0"
 
 [project.scripts]
 privacy-steward = "privacy_steward.cli:app"
