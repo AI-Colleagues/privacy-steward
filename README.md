@@ -1,6 +1,10 @@
 # privacy-steward
 
 [![CI](https://github.com/AI-Colleagues/privacy-steward/actions/workflows/ci.yml/badge.svg?event=push)](https://github.com/AI-Colleagues/privacy-steward/actions/workflows/ci.yml?query=branch%3Amain)
+[![Coverage](https://coverage-badge.samuelcolvin.workers.dev/AI-Colleagues/privacy-steward.svg)](https://coverage-badge.samuelcolvin.workers.dev/redirect/AI-Colleagues/privacy-steward)
+[![PyPI](https://img.shields.io/pypi/v/privacy-steward.svg)](https://pypi.python.org/pypi/privacy-steward)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 
 A CLI tool that redacts PII from plain-text files using the
 [`openai/privacy-filter`](https://huggingface.co/openai/privacy-filter) model via a native
