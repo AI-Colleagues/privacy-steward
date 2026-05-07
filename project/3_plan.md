@@ -104,9 +104,9 @@ Build a CLI tool that redacts PII from plain-text files using the `openai/privac
   - Dependencies: Milestone 3
 - [x] Task 4.2: Rewrite `README.md` — project overview, install instructions, quick-start examples, output layout, options table, benchmark table, feature comparison vs. `opf`
   - Dependencies: Task 4.1
-- [ ] Task 4.3: Add GitHub Actions release workflow — publish to PyPI on version tag push
+- [x] Task 4.3: Add GitHub Actions release workflow — publish to PyPI on version tag push
   - Dependencies: None
-- [ ] Task 4.4: Tag `v0.1.0` and verify PyPI package installs cleanly via `pip install privacy-steward`
+- [x] Task 4.4: Tag `v0.1.0` and verify PyPI package installs cleanly via `pip install privacy-steward`
   - Dependencies: Task 4.2, Task 4.3
 
 ---
