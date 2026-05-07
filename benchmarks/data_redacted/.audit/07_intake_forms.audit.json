@@ -1,0 +1,456 @@
+{
+  "source": "/Users/shaojiejiang/Development/privacy-steward/benchmarks/data/07_intake_forms.txt",
+  "destination": "/Users/shaojiejiang/Development/privacy-steward/benchmarks/data_redacted/07_intake_forms.redacted.txt",
+  "entities": [
+    {
+      "start": 27,
+      "end": 39,
+      "entity_type": "private_person",
+      "score": 0.999998
+    },
+    {
+      "start": 59,
+      "end": 74,
+      "entity_type": "private_email",
+      "score": 0.999988
+    },
+    {
+      "start": 77,
+      "end": 92,
+      "entity_type": "private_phone",
+      "score": 0.999993
+    },
+    {
+      "start": 107,
+      "end": 136,
+      "entity_type": "private_address",
+      "score": 0.939753
+    },
+    {
+      "start": 155,
+      "end": 165,
+      "entity_type": "private_date",
+      "score": 0.99521
+    },
+    {
+      "start": 248,
+      "end": 267,
+      "entity_type": "account_number",
+      "score": 0.996949
+    },
+    {
+      "start": 477,
+      "end": 490,
+      "entity_type": "private_person",
+      "score": 0.999999
+    },
+    {
+      "start": 510,
+      "end": 536,
+      "entity_type": "private_email",
+      "score": 0.999987
+    },
+    {
+      "start": 539,
+      "end": 553,
+      "entity_type": "private_phone",
+      "score": 0.99994
+    },
+    {
+      "start": 568,
+      "end": 604,
+      "entity_type": "private_address",
+      "score": 0.999855
+    },
+    {
+      "start": 623,
+      "end": 633,
+      "entity_type": "private_date",
+      "score": 0.843647
+    },
+    {
+      "start": 716,
+      "end": 735,
+      "entity_type": "account_number",
+      "score": 0.99992
+    },
+    {
+      "start": 837,
+      "end": 858,
+      "entity_type": "secret",
+      "score": 0.442856
+    },
+    {
+      "start": 952,
+      "end": 965,
+      "entity_type": "private_person",
+      "score": 0.999998
+    },
+    {
+      "start": 985,
+      "end": 1001,
+      "entity_type": "private_email",
+      "score": 0.999791
+    },
+    {
+      "start": 1004,
+      "end": 1018,
+      "entity_type": "private_phone",
+      "score": 0.999974
+    },
+    {
+      "start": 1033,
+      "end": 1071,
+      "entity_type": "private_address",
+      "score": 0.999797
+    },
+    {
+      "start": 1090,
+      "end": 1100,
+      "entity_type": "private_date",
+      "score": 0.99961
+    },
+    {
+      "start": 1116,
+      "end": 1159,
+      "entity_type": "private_url",
+      "score": 0.999778
+    },
+    {
+      "start": 1176,
+      "end": 1195,
+      "entity_type": "account_number",
+      "score": 0.999985
+    },
+    {
+      "start": 1312,
+      "end": 1327,
+      "entity_type": "secret",
+      "score": 0.57579
+    },
+    {
+      "start": 1421,
+      "end": 1434,
+      "entity_type": "private_person",
+      "score": 0.999999
+    },
+    {
+      "start": 1454,
+      "end": 1473,
+      "entity_type": "private_email",
+      "score": 0.977603
+    },
+    {
+      "start": 1476,
+      "end": 1491,
+      "entity_type": "private_phone",
+      "score": 0.99999
+    },
+    {
+      "start": 1506,
+      "end": 1542,
+      "entity_type": "private_address",
+      "score": 0.999913
+    },
+    {
+      "start": 1561,
+      "end": 1571,
+      "entity_type": "private_date",
+      "score": 0.999988
+    },
+    {
+      "start": 1587,
+      "end": 1632,
+      "entity_type": "private_url",
+      "score": 0.999725
+    },
+    {
+      "start": 1649,
+      "end": 1668,
+      "entity_type": "account_number",
+      "score": 0.99985
+    },
+    {
+      "start": 1770,
+      "end": 1800,
+      "entity_type": "secret",
+      "score": 0.999996
+    },
+    {
+      "start": 1894,
+      "end": 1907,
+      "entity_type": "private_person",
+      "score": 0.999998
+    },
+    {
+      "start": 1927,
+      "end": 1945,
+      "entity_type": "private_email",
+      "score": 0.998777
+    },
+    {
+      "start": 1948,
+      "end": 1964,
+      "entity_type": "private_phone",
+      "score": 0.999987
+    },
+    {
+      "start": 1979,
+      "end": 2024,
+      "entity_type": "private_address",
+      "score": 0.999935
+    },
+    {
+      "start": 2043,
+      "end": 2053,
+      "entity_type": "private_date",
+      "score": 0.999951
+    },
+    {
+      "start": 2069,
+      "end": 2114,
+      "entity_type": "private_url",
+      "score": 0.999852
+    },
+    {
+      "start": 2131,
+      "end": 2150,
+      "entity_type": "account_number",
+      "score": 0.999924
+    },
+    {
+      "start": 2267,
+      "end": 2282,
+      "entity_type": "secret",
+      "score": 0.817718
+    },
+    {
+      "start": 2376,
+      "end": 2388,
+      "entity_type": "private_person",
+      "score": 0.999998
+    },
+    {
+      "start": 2408,
+      "end": 2425,
+      "entity_type": "private_email",
+      "score": 0.897611
+    },
+    {
+      "start": 2426,
+      "end": 2442,
+      "entity_type": "private_phone",
+      "score": 0.999983
+    },
+    {
+      "start": 2457,
+      "end": 2486,
+      "entity_type": "private_address",
+      "score": 0.999186
+    },
+    {
+      "start": 2505,
+      "end": 2515,
+      "entity_type": "private_date",
+      "score": 0.999986
+    },
+    {
+      "start": 2531,
+      "end": 2573,
+      "entity_type": "private_url",
+      "score": 0.999739
+    },
+    {
+      "start": 2590,
+      "end": 2609,
+      "entity_type": "account_number",
+      "score": 0.999954
+    },
+    {
+      "start": 2726,
+      "end": 2741,
+      "entity_type": "secret",
+      "score": 0.783047
+    },
+    {
+      "start": 2835,
+      "end": 2848,
+      "entity_type": "private_person",
+      "score": 0.999998
+    },
+    {
+      "start": 2868,
+      "end": 2891,
+      "entity_type": "private_email",
+      "score": 0.999992
+    },
+    {
+      "start": 2894,
+      "end": 2909,
+      "entity_type": "private_phone",
+      "score": 0.999987
+    },
+    {
+      "start": 2924,
+      "end": 2954,
+      "entity_type": "private_address",
+      "score": 0.999962
+    },
+    {
+      "start": 2973,
+      "end": 2983,
+      "entity_type": "private_date",
+      "score": 0.99989
+    },
+    {
+      "start": 2999,
+      "end": 3042,
+      "entity_type": "private_url",
+      "score": 0.999963
+    },
+    {
+      "start": 3059,
+      "end": 3078,
+      "entity_type": "account_number",
+      "score": 0.999906
+    },
+    {
+      "start": 3288,
+      "end": 3299,
+      "entity_type": "private_person",
+      "score": 0.999997
+    },
+    {
+      "start": 3319,
+      "end": 3349,
+      "entity_type": "private_email",
+      "score": 0.999883
+    },
+    {
+      "start": 3352,
+      "end": 3367,
+      "entity_type": "private_phone",
+      "score": 0.999988
+    },
+    {
+      "start": 3382,
+      "end": 3420,
+      "entity_type": "private_address",
+      "score": 0.997623
+    },
+    {
+      "start": 3439,
+      "end": 3449,
+      "entity_type": "private_date",
+      "score": 0.937354
+    },
+    {
+      "start": 3465,
+      "end": 3507,
+      "entity_type": "private_url",
+      "score": 0.999688
+    },
+    {
+      "start": 3524,
+      "end": 3543,
+      "entity_type": "account_number",
+      "score": 0.999742
+    },
+    {
+      "start": 3645,
+      "end": 3668,
+      "entity_type": "secret",
+      "score": 0.999989
+    },
+    {
+      "start": 3762,
+      "end": 3775,
+      "entity_type": "private_person",
+      "score": 0.999999
+    },
+    {
+      "start": 3795,
+      "end": 3814,
+      "entity_type": "private_email",
+      "score": 0.997147
+    },
+    {
+      "start": 3817,
+      "end": 3832,
+      "entity_type": "private_phone",
+      "score": 0.999989
+    },
+    {
+      "start": 3847,
+      "end": 3878,
+      "entity_type": "private_address",
+      "score": 0.999993
+    },
+    {
+      "start": 3897,
+      "end": 3907,
+      "entity_type": "private_date",
+      "score": 0.99996
+    },
+    {
+      "start": 3923,
+      "end": 3965,
+      "entity_type": "private_url",
+      "score": 0.999963
+    },
+    {
+      "start": 3982,
+      "end": 4001,
+      "entity_type": "account_number",
+      "score": 0.999932
+    },
+    {
+      "start": 4103,
+      "end": 4133,
+      "entity_type": "secret",
+      "score": 0.999934
+    },
+    {
+      "start": 4228,
+      "end": 4241,
+      "entity_type": "private_person",
+      "score": 0.999998
+    },
+    {
+      "start": 4261,
+      "end": 4284,
+      "entity_type": "private_email",
+      "score": 0.998873
+    },
+    {
+      "start": 4287,
+      "end": 4304,
+      "entity_type": "private_phone",
+      "score": 0.99998
+    },
+    {
+      "start": 4319,
+      "end": 4351,
+      "entity_type": "private_address",
+      "score": 0.999995
+    },
+    {
+      "start": 4370,
+      "end": 4380,
+      "entity_type": "private_date",
+      "score": 0.999961
+    },
+    {
+      "start": 4396,
+      "end": 4441,
+      "entity_type": "private_url",
+      "score": 0.999953
+    },
+    {
+      "start": 4458,
+      "end": 4477,
+      "entity_type": "account_number",
+      "score": 0.998326
+    }
+  ]
+}

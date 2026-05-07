@@ -25,17 +25,28 @@ docs = [
 ]
 
 [project]
-dependencies = []
-description = "Add your description here"
-name = "uv-template"
+dependencies = [
+  "huggingface-hub>=0.20",
+  "numpy>=1.26",
+  "rich>=13.0",
+  "safetensors>=0.4",
+  "tiktoken>=0.7",
+  "torch>=2.0",
+  "typer>=0.12"
+]
+description = "CLI tool to redact PII from text files using the openai/privacy-filter model"
+name = "privacy-steward"
 readme = "README.md"
 requires-python = ">=3.12"
 version = "0.0.1"
 
+[project.scripts]
+privacy-steward = "privacy_steward.cli:app"
+
 [project.urls]
-Homepage = "https://github.com/AI-Colleagues/uv-template"
-Issues = "https://github.com/AI-Colleagues/uv-template/issues"
-Source = "https://github.com/AI-Colleagues/uv-template"
+Homepage = "https://github.com/AI-Colleagues/privacy-steward"
+Issues = "https://github.com/AI-Colleagues/privacy-steward/issues"
+Source = "https://github.com/AI-Colleagues/privacy-steward"
 
 [tool.coverage.report]
 exclude_lines = [
@@ -48,7 +59,7 @@ exclude_lines = [
 [tool.coverage.run]
 branch = true
 command_line = "-m pytest"
-source = ["src/uv_template"]
+source = ["src/privacy_steward"]
 
 [tool.hatch.build.targets.wheel]
 exclude = [
@@ -65,6 +76,9 @@ exclude = [
 disallow_untyped_defs = true
 ignore_missing_imports = true
 python_version = "3.12"
+
+[tool.pytest.ini_options]
+markers = ["slow: marks tests that need the model (deselect with -m 'not slow')"]
 
 [tool.ruff]
 exclude = ["docs", "build"]
@@ -101,7 +115,7 @@ select = [
 ]
 
 [tool.ruff.lint.isort]
-known-first-party = ["uv_template"]
+known-first-party = ["privacy_steward"]
 lines-after-imports = 2
 no-lines-before = ["future", "standard-library", "third-party", "first-party", "local-folder"]
 

@@ -1,0 +1,100 @@
+Meeting note 1: Privacy review sync
+Date discussed: 2026-05-07
+Attendees: Liam Nguyen, Karen Patel, Marco Silva
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: The relevant private date is 17 March 2026, and the mock secret is TEMP-PASS-8841.
+Action item: Karen Patel will check account 2004-7113-8267-5869 and endpoint https://secure.acme.com/customer/kp-2044.
+Temporary credential mentioned for testing: vault-token-demo-19aa.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 2: Privacy review sync
+Date discussed: 31/12/2025
+Attendees: Karen Patel, Amelia Wright, Isabel Santos
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: George Tanaka can be reached at eva.m@firma.de or +49 30 12345678.
+Action item: Alice Johnson will check account 5329-3183-9335-2904 and endpoint https://secure.acme.com/customer/kp-2044.
+Temporary credential mentioned for testing: api_key_mock_7c2f91.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 3: Privacy review sync
+Date discussed: 2026-05-07
+Attendees: Henry Dubois, Marco Silva, Carol Chen
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: The relevant private date is 2025-11-03, and the mock secret is secret_phrase: blue-river-lamp.
+Action item: James O'Brien will check account 3908-4700-7661-7711 and endpoint https://files.example.org/private/report-77.
+Temporary credential mentioned for testing: secret_phrase: blue-river-lamp.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 4: Privacy review sync
+Date discussed: 2025-11-03
+Attendees: Karen Patel, Carol Chen, Henry Dubois
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: The relevant private date is 17 March 2026, and the mock secret is secret_phrase: blue-river-lamp.
+Action item: Eva Müller will check account 1565-4527-1111-6152 and endpoint https://intranet.example.net/secrets/vault-14.
+Temporary credential mentioned for testing: sk_test_51MockSecret9xQ.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 5: Privacy review sync
+Date discussed: 2026-05-07
+Attendees: James O'Brien, James O'Brien, Liam Nguyen
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: The account number is 4945-1983-2731-5851; the private URL is https://support.global-analytics.io/ticket/GA-5539.
+Action item: George Tanaka will check account 3689-9809-4024-4550 and endpoint https://secure.acme.com/customer/kp-2044.
+Temporary credential mentioned for testing: api_key_mock_7c2f91.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 6: Privacy review sync
+Date discussed: 2026-05-07
+Attendees: Nora van Dijk, Eva Müller, Karen Patel
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: The account number is 6752-5459-9102-2901; the private URL is https://intranet.example.net/secrets/vault-14.
+Action item: Isabel Santos will check account 6797-6438-1561-4978 and endpoint https://files.example.org/private/report-77.
+Temporary credential mentioned for testing: sk_test_51MockSecret9xQ.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 7: Privacy review sync
+Date discussed: 2025-11-03
+Attendees: Eva Müller, George Tanaka, Alice Johnson
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: The relevant private date is 04/18/2026, and the mock secret is TEMP-PASS-8841.
+Action item: Alice Johnson will check account 7159-6966-4160-5297 and endpoint https://files.example.org/private/report-77.
+Temporary credential mentioned for testing: sk_test_51MockSecret9xQ.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 8: Privacy review sync
+Date discussed: 17 March 2026
+Attendees: Amelia Wright, Karen Patel, David Kim
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: The account number is 5352-1818-8355-2312; the private URL is https://portal.example.com/case/alpha-9182.
+Action item: David Kim will check account 2921-2779-9799-5527 and endpoint https://portal.example.com/case/alpha-9182.
+Temporary credential mentioned for testing: vault-token-demo-19aa.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 9: Privacy review sync
+Date discussed: 17 March 2026
+Attendees: Nora van Dijk, Henry Dubois, Marco Silva
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: The relevant private date is 2026-01-14, and the mock secret is TEMP-PASS-8841.
+Action item: Noah Schmidt will check account 9359-7820-7151-8203 and endpoint https://support.global-analytics.io/ticket/GA-5539.
+Temporary credential mentioned for testing: vault-token-demo-19aa.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 10: Privacy review sync
+Date discussed: 2026-05-07
+Attendees: James O'Brien, George Tanaka, Carol Chen
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: The account number is 9051-5186-4492-5192; the private URL is https://support.global-analytics.io/ticket/GA-5539.
+Action item: Henry Dubois will check account 6291-4865-2816-8505 and endpoint https://files.example.org/private/report-77.
+Temporary credential mentioned for testing: api_key_mock_7c2f91.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 1: Privacy review sync
+Date discussed: 2026-05-07
+Attendees: Liam Nguyen, Karen Patel, Marco Silva
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: The relevant private date is 17 March 2026, and the mock secret is TEMP-PASS-8841.
+Action item: Karen Patel will check account 2004-7113-8267-5869 and endpoint https://secure.acme.com/customer/kp-2044.
+Temporary credential mentioned for testing: vault-token-demo-19aa.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 2: Privacy review sync

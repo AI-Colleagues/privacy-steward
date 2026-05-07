@@ -1,0 +1,110 @@
+Subject: Follow-up on account access 1
+Dear Nora van Dijk,
+Thank you for contacting Acme Corp.
+Alice Johnson can be reached at henry.dubois@startupxyz.fr or +1-555-867-5309.
+The address on record is 100 Innovation Drive, San Francisco, CA 94103.
+The account number is 8196-0013-3890-8386; the private URL is https://secure.acme.com/customer/kp-2044.
+The relevant private date is 31/12/2025, and the mock secret is sk_test_51MockSecret9xQ.
+Please do not forward this message outside the test environment.
+Best regards,
+David Kim
+---
+Subject: Follow-up on account access 2
+Dear Isabel Santos,
+Thank you for contacting Northwind Research.
+Henry Dubois can be reached at alice.j@acme.com or +351 21 123 4567.
+The address on record is 12 Rue de Rivoli, 75001 Paris.
+The account number is 5423-5116-1559-4078; the private URL is https://secure.acme.com/customer/kp-2044.
+The relevant private date is 31/12/2025, and the mock secret is vault-token-demo-19aa.
+Please do not forward this message outside the test environment.
+Best regards,
+Karen Patel
+---
+Subject: Follow-up on account access 3
+Dear Noah Schmidt,
+Thank you for contacting StartupXYZ.
+Karen Patel can be reached at james.ob@company.ie or +49 30 12345678.
+The address on record is 12 Rue de Rivoli, 75001 Paris.
+The account number is 3103-4131-6475-2553; the private URL is https://intranet.example.net/secrets/vault-14.
+The relevant private date is 04/18/2026, and the mock secret is secret_phrase: blue-river-lamp.
+Please do not forward this message outside the test environment.
+Best regards,
+Nora van Dijk
+---
+Subject: Follow-up on account access 4
+Dear Henry Dubois,
+Thank you for contacting Blue River Systems.
+Noah Schmidt can be reached at karen.patel@example.net or +31 20 123 4567.
+The address on record is Rua Augusta 50, 1100-053 Lisbon.
+The account number is 3276-4835-0305-6413; the private URL is https://secure.acme.com/customer/kp-2044.
+The relevant private date is 2026-05-07, and the mock secret is otp_seed_mock_JBSWY3DPEHPK3PXP.
+Please do not forward this message outside the test environment.
+Best regards,
+Noah Schmidt
+---
+Subject: Follow-up on account access 5
+Dear George Tanaka,
+Thank you for contacting Blue River Systems.
+Liam Nguyen can be reached at david.kim@innolab.co.uk or +33 1 42 68 53 00.
+The address on record is Keizersgracht 123, 1015 CJ Amsterdam.
+The account number is 2423-8849-6965-3287; the private URL is https://support.global-analytics.io/ticket/GA-5539.
+The relevant private date is 31/12/2025, and the mock secret is vault-token-demo-19aa.
+Please do not forward this message outside the test environment.
+Best regards,
+Karen Patel
+---
+Subject: Follow-up on account access 6
+Dear Marco Silva,
+Thank you for contacting Acme Corp.
+Amelia Wright can be reached at karen.patel@example.net or +1-555-867-5309.
+The address on record is Rua Augusta 50, 1100-053 Lisbon.
+The account number is 9166-9784-8018-4514; the private URL is https://secure.acme.com/customer/kp-2044.
+The relevant private date is 31/12/2025, and the mock secret is vault-token-demo-19aa.
+Please do not forward this message outside the test environment.
+Best regards,
+Eva Müller
+---
+Subject: Follow-up on account access 7
+Dear Carol Chen,
+Thank you for contacting StartupXYZ.
+Alice Johnson can be reached at henry.dubois@startupxyz.fr or +31 20 123 4567.
+The address on record is 12 Rue de Rivoli, 75001 Paris.
+The account number is 4893-2528-8095-7015; the private URL is https://secure.acme.com/customer/kp-2044.
+The relevant private date is 2026-05-07, and the mock secret is sk_test_51MockSecret9xQ.
+Please do not forward this message outside the test environment.
+Best regards,
+Noah Schmidt
+---
+Subject: Follow-up on account access 8
+Dear Amelia Wright,
+Thank you for contacting InnoLab Ltd.
+David Kim can be reached at alice.j@acme.com or +1-555-867-5309.
+The address on record is Unter den Linden 8, 10117 Berlin.
+The account number is 7182-2782-4896-3834; the private URL is https://portal.example.com/case/alpha-9182.
+The relevant private date is 2026-01-14, and the mock secret is otp_seed_mock_JBSWY3DPEHPK3PXP.
+Please do not forward this message outside the test environment.
+Best regards,
+Eva Müller
+---
+Subject: Follow-up on account access 9
+Dear Nora van Dijk,
+Thank you for contacting Blue River Systems.
+Liam Nguyen can be reached at i.santos@uni.pt or +31 20 123 4567.
+The address on record is Keizersgracht 123, 1015 CJ Amsterdam.
+The account number is 1509-8393-0103-1051; the private URL is https://portal.example.com/case/alpha-9182.
+The relevant private date is 2025-11-03, and the mock secret is api_key_mock_7c2f91.
+Please do not forward this message outside the test environment.
+Best regards,
+James O'Brien
+---
+Subject: Follow-up on account access 10
+Dear David Kim,
+Thank you for contacting InnoLab Ltd.
+Nora van Dijk can be reached at i.santos@uni.pt or +1-555-867-5309.
+The address on record is Unter den Linden 8, 10117 Berlin.
+The account number is 9737-6311-6566-7010; the private URL is https://secure.acme.com/customer/kp-2044.
+The relevant private date is 31/12/2025, and the mock secret is secret_phrase: blue-river-lamp.
+Please do not forward this message outside the test environment.
+Best regards,
+Eva Müller
+---

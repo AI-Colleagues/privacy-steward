@@ -1,0 +1,100 @@
+Meeting note 1: Privacy review sync
+Date discussed: <PRIVATE_DATE>
+Attendees: <PRIVATE_PERSON>, <PRIVATE_PERSON>, <PRIVATE_PERSON>
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: The relevant private date is <PRIVATE_DATE>, and the mock secret is TEMP-PASS-8841.
+Action item: <PRIVATE_PERSON> will check account <ACCOUNT_NUMBER> and endpoint <PRIVATE_URL>.
+Temporary credential mentioned for testing: vault-token-demo-19aa.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 2: Privacy review sync
+Date discussed: <PRIVATE_DATE>
+Attendees: <PRIVATE_PERSON>, <PRIVATE_PERSON>, <PRIVATE_PERSON>
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: <PRIVATE_PERSON> can be reached at <PRIVATE_EMAIL> or <PRIVATE_PHONE>.
+Action item: <PRIVATE_PERSON> will check account <ACCOUNT_NUMBER> and endpoint <PRIVATE_URL>.
+Temporary credential mentioned for testing: <SECRET>.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 3: Privacy review sync
+Date discussed: <PRIVATE_DATE>
+Attendees: <PRIVATE_PERSON>, <PRIVATE_PERSON>, <PRIVATE_PERSON>
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: The relevant private date is <PRIVATE_DATE>, and the mock secret is secret_phrase: <SECRET>.
+Action item: <PRIVATE_PERSON> will check account <ACCOUNT_NUMBER> and endpoint <PRIVATE_URL>.
+Temporary credential mentioned for testing: secret_phrase: blue-river-lamp.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 4: Privacy review sync
+Date discussed: <PRIVATE_DATE>
+Attendees: <PRIVATE_PERSON>, <PRIVATE_PERSON>, <PRIVATE_PERSON>
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: The relevant private date is <PRIVATE_DATE>, and the mock secret is secret_phrase: <SECRET>.
+Action item: <PRIVATE_PERSON> will check account <ACCOUNT_NUMBER> and endpoint <PRIVATE_URL>.
+Temporary credential mentioned for testing: <SECRET>.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 5: Privacy review sync
+Date discussed: <PRIVATE_DATE>
+Attendees: <PRIVATE_PERSON>, <PRIVATE_PERSON>, <PRIVATE_PERSON>
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: The account number is <ACCOUNT_NUMBER>; the private URL is https://support.global-analytics.io/ticket/GA-5539.
+Action item: <PRIVATE_PERSON> will check account <ACCOUNT_NUMBER> and endpoint <PRIVATE_URL>.
+Temporary credential mentioned for testing: <SECRET>.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 6: Privacy review sync
+Date discussed: <PRIVATE_DATE>
+Attendees: <PRIVATE_PERSON>, <PRIVATE_PERSON>, <PRIVATE_PERSON>
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: The account number is <ACCOUNT_NUMBER>; the private URL is <PRIVATE_URL>.
+Action item: <PRIVATE_PERSON> will check account <ACCOUNT_NUMBER> and endpoint <PRIVATE_URL>.
+Temporary credential mentioned for testing: <SECRET>.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 7: Privacy review sync
+Date discussed: <PRIVATE_DATE>
+Attendees: <PRIVATE_PERSON>, <PRIVATE_PERSON>, <PRIVATE_PERSON>
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: The relevant private date is <PRIVATE_DATE>, and the mock secret is TEMP-PASS-8841.
+Action item: <PRIVATE_PERSON> will check account <ACCOUNT_NUMBER> and endpoint <PRIVATE_URL>.
+Temporary credential mentioned for testing: <SECRET>.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 8: Privacy review sync
+Date discussed: <PRIVATE_DATE>
+Attendees: <PRIVATE_PERSON>, <PRIVATE_PERSON>, <PRIVATE_PERSON>
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: The account number is <ACCOUNT_NUMBER>; the private URL is <PRIVATE_URL>.
+Action item: <PRIVATE_PERSON> will check account <ACCOUNT_NUMBER> and endpoint <PRIVATE_URL>.
+Temporary credential mentioned for testing: vault-token-demo-19aa.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 9: Privacy review sync
+Date discussed: <PRIVATE_DATE>
+Attendees: <PRIVATE_PERSON>, <PRIVATE_PERSON>, <PRIVATE_PERSON>
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: The relevant private date is <PRIVATE_DATE>, and the mock secret is TEMP-PASS-8841.
+Action item: <PRIVATE_PERSON> will check account <ACCOUNT_NUMBER> and endpoint https://support.global-analytics.io/ticket/GA-5539.
+Temporary credential mentioned for testing: vault-token-demo-19aa.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 10: Privacy review sync
+Date discussed: <PRIVATE_DATE>
+Attendees: <PRIVATE_PERSON>, <PRIVATE_PERSON>, <PRIVATE_PERSON>
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: The account number is <ACCOUNT_NUMBER>; the private URL is https://support.global-analytics.io/ticket/GA-5539.
+Action item: <PRIVATE_PERSON> will check account <ACCOUNT_NUMBER> and endpoint <PRIVATE_URL>.
+Temporary credential mentioned for testing: <SECRET>.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 1: Privacy review sync
+Date discussed: <PRIVATE_DATE>
+Attendees: <PRIVATE_PERSON>, <PRIVATE_PERSON>, <PRIVATE_PERSON>
+Agenda: review whether mock private fields are detected in natural prose.
+Example record: The relevant private date is <PRIVATE_DATE>, and the mock secret is TEMP-PASS-8841.
+Action item: <PRIVATE_PERSON> will check account <ACCOUNT_NUMBER> and endpoint <PRIVATE_URL>.
+Temporary credential mentioned for testing: vault-token-demo-19aa.
+Decision: keep examples synthetic and clearly non-production.
+
+Meeting note 2: Privacy review sync

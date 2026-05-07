@@ -1,0 +1,3 @@
+The quarterly earnings report showed strong growth across all sectors.
+OpenAI released GPT-4 in March 2023 and it became widely adopted.
+Machine learning models require large datasets to achieve good generalisation.

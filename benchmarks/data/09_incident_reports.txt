@@ -1,0 +1,109 @@
+Security incident report SIR-300
+Reporter: Amelia Wright
+The reporter noticed access to https://secure.acme.com/customer/kp-2044 on 17 March 2026.
+Associated user email: alice.j@acme.com.
+Associated phone: +31 20 123 4567.
+Associated address: Keizersgracht 123, 1015 CJ Amsterdam.
+Impacted account_number: 6882-6343-5175-1830.
+Potentially exposed mock secret: TEMP-PASS-8841.
+Impact assessment: no real systems affected; synthetic record created for testing.
+Next step: rotate all placeholder credentials in the demonstration dataset.
+
+Security incident report SIR-301
+Reporter: Eva Müller
+The reporter noticed access to https://intranet.example.net/secrets/vault-14 on 2026-05-07.
+Associated user email: alice.j@acme.com.
+Associated phone: +351 21 123 4567.
+Associated address: 42 Maple Street, Springfield, IL 62701.
+Impacted account_number: 3983-7354-0331-7393.
+Potentially exposed mock secret: vault-token-demo-19aa.
+Impact assessment: no real systems affected; synthetic record created for testing.
+Next step: rotate all placeholder credentials in the demonstration dataset.
+
+Security incident report SIR-302
+Reporter: Noah Schmidt
+The reporter noticed access to https://secure.acme.com/customer/kp-2044 on 2026-05-07.
+Associated user email: liam.nguyen@techco.jp.
+Associated phone: +351 21 123 4567.
+Associated address: 9 Oxford Road, London EC1A 1BB.
+Impacted account_number: 6785-4458-7717-5355.
+Potentially exposed mock secret: vault-token-demo-19aa.
+Impact assessment: no real systems affected; synthetic record created for testing.
+Next step: rotate all placeholder credentials in the demonstration dataset.
+
+Security incident report SIR-303
+Reporter: Alice Johnson
+The reporter noticed access to https://intranet.example.net/secrets/vault-14 on 2025-11-03.
+Associated user email: carol.chen@global-analytics.io.
+Associated phone: (415) 555-2671.
+Associated address: 9 Oxford Road, London EC1A 1BB.
+Impacted account_number: 8996-4235-3693-7854.
+Potentially exposed mock secret: vault-token-demo-19aa.
+Impact assessment: no real systems affected; synthetic record created for testing.
+Next step: rotate all placeholder credentials in the demonstration dataset.
+
+Security incident report SIR-304
+Reporter: Sofia Rossi
+The reporter noticed access to https://support.global-analytics.io/ticket/GA-5539 on 17 March 2026.
+Associated user email: carol.chen@global-analytics.io.
+Associated phone: +33 1 42 68 53 00.
+Associated address: 12 Rue de Rivoli, 75001 Paris.
+Impacted account_number: 5228-7280-8010-0623.
+Potentially exposed mock secret: sk_test_51MockSecret9xQ.
+Impact assessment: no real systems affected; synthetic record created for testing.
+Next step: rotate all placeholder credentials in the demonstration dataset.
+
+Security incident report SIR-305
+Reporter: Sofia Rossi
+The reporter noticed access to https://secure.acme.com/customer/kp-2044 on 2026-01-14.
+Associated user email: david.kim@innolab.co.uk.
+Associated phone: +31 20 123 4567.
+Associated address: Keizersgracht 123, 1015 CJ Amsterdam.
+Impacted account_number: 5099-7700-8860-0848.
+Potentially exposed mock secret: TEMP-PASS-8841.
+Impact assessment: no real systems affected; synthetic record created for testing.
+Next step: rotate all placeholder credentials in the demonstration dataset.
+
+Security incident report SIR-306
+Reporter: Alice Johnson
+The reporter noticed access to https://intranet.example.net/secrets/vault-14 on 31/12/2025.
+Associated user email: eva.m@firma.de.
+Associated phone: +351 21 123 4567.
+Associated address: 100 Innovation Drive, San Francisco, CA 94103.
+Impacted account_number: 1182-3398-4546-1567.
+Potentially exposed mock secret: secret_phrase: blue-river-lamp.
+Impact assessment: no real systems affected; synthetic record created for testing.
+Next step: rotate all placeholder credentials in the demonstration dataset.
+
+Security incident report SIR-307
+Reporter: David Kim
+The reporter noticed access to https://secure.acme.com/customer/kp-2044 on 04/18/2026.
+Associated user email: karen.patel@example.net.
+Associated phone: +33 1 42 68 53 00.
+Associated address: 12 Rue de Rivoli, 75001 Paris.
+Impacted account_number: 0166-6870-0217-6591.
+Potentially exposed mock secret: secret_phrase: blue-river-lamp.
+Impact assessment: no real systems affected; synthetic record created for testing.
+Next step: rotate all placeholder credentials in the demonstration dataset.
+
+Security incident report SIR-308
+Reporter: Noah Schmidt
+The reporter noticed access to https://portal.example.com/case/alpha-9182 on 2025-11-03.
+Associated user email: david.kim@innolab.co.uk.
+Associated phone: +351 21 123 4567.
+Associated address: Rua Augusta 50, 1100-053 Lisbon.
+Impacted account_number: 9740-1489-0250-3926.
+Potentially exposed mock secret: sk_test_51MockSecret9xQ.
+Impact assessment: no real systems affected; synthetic record created for testing.
+Next step: rotate all placeholder credentials in the demonstration dataset.
+
+Security incident report SIR-309
+Reporter: Henry Dubois
+The reporter noticed access to https://secure.acme.com/customer/kp-2044 on 2026-05-07.
+Associated user email: david.kim@innolab.co.uk.
+Associated phone: +31 20 123 4567.
+Associated address: 12 Rue de Rivoli, 75001 Paris.
+Impacted account_number: 6856-2185-0163-1599.
+Potentially exposed mock secret: secret_phrase: blue-river-lamp.
+Impact assessment: no real systems affected; synthetic record created for testing.
+Next step: rotate all placeholder credentials in the demonstration dataset.
