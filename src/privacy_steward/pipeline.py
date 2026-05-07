@@ -86,9 +86,9 @@ VITERBI_TRANSITION_BIAS_KEYS: Final[tuple[str, ...]] = (
 DEFAULT_VITERBI_CALIBRATION_PRESET: Final[str] = "default"
 
 
-@functools.lru_cache(maxsize=1)
-def _get_model_dir() -> Path:
-    model_root = snapshot_download(DEFAULT_MODEL, allow_patterns=["original/*"])
+@functools.lru_cache(maxsize=8)
+def _get_model_dir(model_id: str = DEFAULT_MODEL) -> Path:
+    model_root = snapshot_download(model_id, allow_patterns=["original/*"])
     return Path(model_root) / "original"
 
 
@@ -1128,10 +1128,10 @@ class InferenceRuntime:
     n_ctx: int
 
 
-@functools.lru_cache(maxsize=1)
-def get_viterbi_transition_biases() -> dict[str, float]:
+@functools.lru_cache(maxsize=8)
+def get_viterbi_transition_biases(model_id: str = DEFAULT_MODEL) -> dict[str, float]:
     """Load Viterbi transition biases from the calibration file if present."""
-    calibration_path = _get_model_dir() / "viterbi_calibration.json"
+    calibration_path = _get_model_dir(model_id) / "viterbi_calibration.json"
     default_biases = {key: 0.0 for key in VITERBI_TRANSITION_BIAS_KEYS}
     if not calibration_path.is_file():
         return default_biases
@@ -1165,10 +1165,10 @@ def get_viterbi_transition_biases() -> dict[str, float]:
     return resolved_biases
 
 
-@functools.lru_cache(maxsize=1)
-def get_runtime() -> InferenceRuntime:
+@functools.lru_cache(maxsize=8)
+def get_runtime(model_id: str = DEFAULT_MODEL) -> InferenceRuntime:
     """Load and cache the model, tokenizer, and label metadata."""
-    checkpoint = _get_model_dir()
+    checkpoint = _get_model_dir(model_id)
     if not checkpoint.exists() or not checkpoint.is_dir():
         raise FileNotFoundError(f"Checkpoint directory not found: {checkpoint}")
     if not any(checkpoint.glob("*.safetensors")):
@@ -1229,10 +1229,7 @@ def get_runtime() -> InferenceRuntime:
         background_token_label=background_idx,
         background_span_label=span_label_lookup[BACKGROUND_CLASS_LABEL],
     )
-    model = Transformer.from_checkpoint(
-        str(checkpoint),
-        device=device,
-    )
+    model = Transformer.from_checkpoint(str(checkpoint), device=device)
     return InferenceRuntime(
         model=model,
         encoding=encoding,
@@ -1245,7 +1242,11 @@ def get_runtime() -> InferenceRuntime:
 class Decoder:
     """Viterbi decoder for token-classification logits."""
 
-    def __init__(self, label_info: LabelInfo) -> None:
+    def __init__(
+        self,
+        label_info: LabelInfo,
+        model_id: str = DEFAULT_MODEL,
+    ) -> None:
         """Precompute transition scores for the valid label lattice."""
         self.label_info = label_info
         num_classes = len(label_info.token_to_span_label)
@@ -1254,7 +1255,7 @@ class Decoder:
         self._transition_scores = torch.full(
             (num_classes, num_classes), -1e9, dtype=torch.float32
         )
-        transition_biases = get_viterbi_transition_biases()
+        transition_biases = get_viterbi_transition_biases(model_id)
 
         background_token_idx = label_info.background_token_label
         background_span_idx = label_info.background_span_label
@@ -1581,8 +1582,8 @@ class NERPipeline:
 
     def __init__(self, model_id: str = DEFAULT_MODEL) -> None:
         """Initialize the cached runtime and decoder."""
-        self._runtime = get_runtime()
-        self._decoder = Decoder(label_info=self._runtime.label_info)
+        self._runtime = get_runtime(model_id=model_id)
+        self._decoder = Decoder(label_info=self._runtime.label_info, model_id=model_id)
 
     def predict(self, text: str) -> list[EntitySpan]:
         """Return PII entity spans detected in *text*."""

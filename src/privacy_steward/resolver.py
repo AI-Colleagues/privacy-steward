@@ -23,11 +23,14 @@ def resolve(
         raise FileNotFoundError(f"Input path does not exist: {input_path}")
 
     if input_path.is_file():
-        dest = (
-            output_path.resolve()
-            if output_path is not None
-            else _default_file_dest(input_path)
-        )
+        if output_path is not None and output_path.exists() and output_path.is_dir():
+            dest = output_path.resolve() / _default_file_dest(input_path).name
+        else:
+            dest = (
+                output_path.resolve()
+                if output_path is not None
+                else _default_file_dest(input_path)
+            )
         return [(input_path, dest)]
 
     if input_path.is_dir():

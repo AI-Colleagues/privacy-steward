@@ -429,7 +429,9 @@ def test_mlp_block_forward_without_cast_branch() -> None:
 def test_get_viterbi_transition_biases_default_branch(
     monkeypatch, tmp_path: Path
 ) -> None:
-    monkeypatch.setattr(pipeline, "_get_model_dir", lambda: tmp_path)
+    monkeypatch.setattr(
+        pipeline, "_get_model_dir", lambda model_id=pipeline.DEFAULT_MODEL: tmp_path
+    )
     assert get_viterbi_transition_biases() == {
         key: 0.0 for key in pipeline.VITERBI_TRANSITION_BIAS_KEYS
     }
@@ -460,7 +462,9 @@ def test_get_viterbi_transition_biases_reads_explicit_payload(
         }
     }
     (model_dir / "viterbi_calibration.json").write_text(json.dumps(payload))
-    monkeypatch.setattr(pipeline, "_get_model_dir", lambda: model_dir)
+    monkeypatch.setattr(
+        pipeline, "_get_model_dir", lambda model_id=pipeline.DEFAULT_MODEL: model_dir
+    )
 
     biases = get_viterbi_transition_biases()
     assert biases["transition_bias_background_stay"] == 0.0
@@ -479,7 +483,9 @@ def test_get_viterbi_transition_biases_reads_top_level_biases(
         key: float(idx) for idx, key in enumerate(pipeline.VITERBI_TRANSITION_BIAS_KEYS)
     }
     (model_dir / "viterbi_calibration.json").write_text(json.dumps(payload))
-    monkeypatch.setattr(pipeline, "_get_model_dir", lambda: model_dir)
+    monkeypatch.setattr(
+        pipeline, "_get_model_dir", lambda model_id=pipeline.DEFAULT_MODEL: model_dir
+    )
 
     biases = get_viterbi_transition_biases()
     assert biases["transition_bias_background_stay"] == 0.0
@@ -526,7 +532,9 @@ def test_get_viterbi_transition_biases_rejects_invalid_payloads(
     model_dir = tmp_path / "original"
     model_dir.mkdir()
     (model_dir / "viterbi_calibration.json").write_text(payload)
-    monkeypatch.setattr(pipeline, "_get_model_dir", lambda: model_dir)
+    monkeypatch.setattr(
+        pipeline, "_get_model_dir", lambda model_id=pipeline.DEFAULT_MODEL: model_dir
+    )
 
     with pytest.raises(ValueError, match=message):
         get_viterbi_transition_biases()
@@ -536,7 +544,9 @@ def test_decoder_initialization_builds_transition_scores(monkeypatch) -> None:
     monkeypatch.setattr(
         pipeline,
         "get_viterbi_transition_biases",
-        lambda: {key: 0.0 for key in pipeline.VITERBI_TRANSITION_BIAS_KEYS},
+        lambda model_id=pipeline.DEFAULT_MODEL: {
+            key: 0.0 for key in pipeline.VITERBI_TRANSITION_BIAS_KEYS
+        },
     )
     decoder = Decoder(_label_info())
 
@@ -549,7 +559,9 @@ def test_decoder_decode_handles_normal_and_fallback_paths(monkeypatch) -> None:
     monkeypatch.setattr(
         pipeline,
         "get_viterbi_transition_biases",
-        lambda: {key: 0.0 for key in pipeline.VITERBI_TRANSITION_BIAS_KEYS},
+        lambda model_id=pipeline.DEFAULT_MODEL: {
+            key: 0.0 for key in pipeline.VITERBI_TRANSITION_BIAS_KEYS
+        },
     )
     decoder = Decoder(_label_info())
 
@@ -571,7 +583,9 @@ def test_decoder_decode_rejects_bad_shapes(monkeypatch) -> None:
     monkeypatch.setattr(
         pipeline,
         "get_viterbi_transition_biases",
-        lambda: {key: 0.0 for key in pipeline.VITERBI_TRANSITION_BIAS_KEYS},
+        lambda model_id=pipeline.DEFAULT_MODEL: {
+            key: 0.0 for key in pipeline.VITERBI_TRANSITION_BIAS_KEYS
+        },
     )
     decoder = Decoder(_label_info())
 
@@ -626,7 +640,9 @@ def test_get_runtime_success(monkeypatch, tmp_path: Path) -> None:
     model_dir.mkdir()
     (model_dir / "config.json").write_text(json.dumps(_valid_config()))
     (model_dir / "model.safetensors").write_text("stub")
-    monkeypatch.setattr(pipeline, "_get_model_dir", lambda: model_dir)
+    monkeypatch.setattr(
+        pipeline, "_get_model_dir", lambda model_id=pipeline.DEFAULT_MODEL: model_dir
+    )
 
     fake_model = object()
     monkeypatch.setattr(
@@ -649,7 +665,9 @@ def test_get_runtime_rejects_invalid_checkpoint_layout(
     model_dir = tmp_path / "original"
     model_dir.mkdir()
     (model_dir / "config.json").write_text(json.dumps(_valid_config()))
-    monkeypatch.setattr(pipeline, "_get_model_dir", lambda: model_dir)
+    monkeypatch.setattr(
+        pipeline, "_get_model_dir", lambda model_id=pipeline.DEFAULT_MODEL: model_dir
+    )
 
     with pytest.raises(FileNotFoundError, match="no \\.safetensors files"):
         get_runtime()
@@ -658,7 +676,11 @@ def test_get_runtime_rejects_invalid_checkpoint_layout(
 def test_get_runtime_rejects_missing_checkpoint_directory(
     monkeypatch, tmp_path: Path
 ) -> None:
-    monkeypatch.setattr(pipeline, "_get_model_dir", lambda: tmp_path / "missing")
+    monkeypatch.setattr(
+        pipeline,
+        "_get_model_dir",
+        lambda model_id=pipeline.DEFAULT_MODEL: tmp_path / "missing",
+    )
 
     with pytest.raises(FileNotFoundError, match="Checkpoint directory not found"):
         get_runtime()
@@ -671,7 +693,9 @@ def test_get_runtime_rejects_invalid_config_payload(
     model_dir.mkdir()
     (model_dir / "config.json").write_text("[]")
     (model_dir / "model.safetensors").write_text("stub")
-    monkeypatch.setattr(pipeline, "_get_model_dir", lambda: model_dir)
+    monkeypatch.setattr(
+        pipeline, "_get_model_dir", lambda model_id=pipeline.DEFAULT_MODEL: model_dir
+    )
 
     with pytest.raises(ValueError, match="Invalid checkpoint config payload"):
         get_runtime()
@@ -684,7 +708,9 @@ def test_get_runtime_rejects_missing_background_label(
     model_dir.mkdir()
     (model_dir / "config.json").write_text(json.dumps(_valid_config()))
     (model_dir / "model.safetensors").write_text("stub")
-    monkeypatch.setattr(pipeline, "_get_model_dir", lambda: model_dir)
+    monkeypatch.setattr(
+        pipeline, "_get_model_dir", lambda model_id=pipeline.DEFAULT_MODEL: model_dir
+    )
     monkeypatch.setattr(
         pipeline, "NER_CLASS_NAMES", ("B-private_person", "E-private_person")
     )
@@ -700,7 +726,9 @@ def test_get_runtime_rejects_incomplete_boundary_sets(
     model_dir.mkdir()
     (model_dir / "config.json").write_text(json.dumps(_valid_config()))
     (model_dir / "model.safetensors").write_text("stub")
-    monkeypatch.setattr(pipeline, "_get_model_dir", lambda: model_dir)
+    monkeypatch.setattr(
+        pipeline, "_get_model_dir", lambda model_id=pipeline.DEFAULT_MODEL: model_dir
+    )
     monkeypatch.setattr(
         pipeline,
         "NER_CLASS_NAMES",
@@ -988,17 +1016,53 @@ def test_build_redacted_text_empty_inputs_return_original() -> None:
     assert build_redacted_text("plain text", []) == "plain text"
 
 
-def test_ner_pipeline_predict_uses_model_output(monkeypatch) -> None:
+def test_ner_pipeline_passes_model_id_to_runtime_and_decoder(monkeypatch) -> None:
     fake_runtime = _runtime(label_path=[1, 2, 3], transform=lambda text: text)
+    seen: dict[str, str] = {}
+
+    def fake_get_runtime(model_id: str = pipeline.DEFAULT_MODEL) -> InferenceRuntime:
+        seen["runtime"] = model_id
+        return fake_runtime
 
     class FakeDecoderFactory:
-        def __init__(self, label_info: LabelInfo) -> None:
+        def __init__(
+            self,
+            label_info: LabelInfo,
+            model_id: str = pipeline.DEFAULT_MODEL,
+        ) -> None:
+            seen["decoder"] = model_id
             self.label_info = label_info
 
         def decode(self, token_logprobs: torch.Tensor) -> list[int]:
             return [1, 2, 3]
 
-    monkeypatch.setattr(pipeline, "get_runtime", lambda: fake_runtime)
+    monkeypatch.setattr(pipeline, "get_runtime", fake_get_runtime)
+    monkeypatch.setattr(pipeline, "Decoder", FakeDecoderFactory)
+
+    NERPipeline(model_id="custom/model")
+
+    assert seen == {"runtime": "custom/model", "decoder": "custom/model"}
+
+
+def test_ner_pipeline_predict_uses_model_output(monkeypatch) -> None:
+    fake_runtime = _runtime(label_path=[1, 2, 3], transform=lambda text: text)
+
+    class FakeDecoderFactory:
+        def __init__(
+            self,
+            label_info: LabelInfo,
+            model_id: str = pipeline.DEFAULT_MODEL,
+        ) -> None:
+            self.label_info = label_info
+
+        def decode(self, token_logprobs: torch.Tensor) -> list[int]:
+            return [1, 2, 3]
+
+    monkeypatch.setattr(
+        pipeline,
+        "get_runtime",
+        lambda model_id=pipeline.DEFAULT_MODEL: fake_runtime,
+    )
     monkeypatch.setattr(pipeline, "Decoder", FakeDecoderFactory)
     pipe = NERPipeline()
     spans = pipe.predict("abc")
@@ -1011,13 +1075,21 @@ def test_ner_pipeline_predict_skips_empty_text(monkeypatch) -> None:
     fake_runtime = _runtime(label_path=[], transform=lambda text: text)
 
     class FakeDecoderFactory:
-        def __init__(self, label_info: LabelInfo) -> None:
+        def __init__(
+            self,
+            label_info: LabelInfo,
+            model_id: str = pipeline.DEFAULT_MODEL,
+        ) -> None:
             self.label_info = label_info
 
         def decode(self, token_logprobs: torch.Tensor) -> list[int]:
             return []
 
-    monkeypatch.setattr(pipeline, "get_runtime", lambda: fake_runtime)
+    monkeypatch.setattr(
+        pipeline,
+        "get_runtime",
+        lambda model_id=pipeline.DEFAULT_MODEL: fake_runtime,
+    )
     monkeypatch.setattr(pipeline, "Decoder", FakeDecoderFactory)
     pipe = NERPipeline()
     assert pipe.predict("") == []

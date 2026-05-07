@@ -29,6 +29,15 @@ def test_resolve_file_explicit_output(tmp_path: Path) -> None:
     assert pairs[0][1] == dest.resolve()
 
 
+def test_resolve_file_explicit_output_directory(tmp_path: Path) -> None:
+    src = tmp_path / "notes.txt"
+    src.write_text("hello")
+    out = tmp_path / "clean"
+    out.mkdir()
+    pairs = resolve(src, out)
+    assert pairs[0][1] == out.resolve() / "notes.redacted.txt"
+
+
 def test_resolve_file_missing_raises(tmp_path: Path) -> None:
     with pytest.raises(FileNotFoundError):
         resolve(tmp_path / "nonexistent.txt")
