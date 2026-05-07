@@ -91,7 +91,7 @@ def _print_completion(
         f"\n[green]Done[/green] — {action} [bold]{total}[/bold] entities "
         f"across [bold]{len(results)}[/bold] file(s) in {elapsed_total:.2f} s"
     )
-    if not dry_run:
+    if not dry_run and results:
         _console.print(f"Audit records written to [bold]{audit_dir}[/bold]")
 
 

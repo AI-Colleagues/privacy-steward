@@ -1117,15 +1117,12 @@ def _token_spans_to_trimmed_scored_char_spans(
     """Map token spans to trimmed character spans while keeping scores aligned."""
     char_spans: list[tuple[int, int, int]] = []
     aligned_scores: list[float] = []
-    for idx, (label_idx, token_start, token_end) in enumerate(token_spans):
-        if not (0 <= token_start < token_end <= len(char_starts)):
-            continue
-        char_start = char_starts[token_start]
-        char_end = char_ends[token_end - 1]
-        if char_end <= char_start:
+    for idx, token_span in enumerate(token_spans):
+        converted = token_spans_to_char_spans([token_span], char_starts, char_ends)
+        if not converted:
             continue
 
-        trimmed = trim_char_spans_whitespace([(label_idx, char_start, char_end)], text)
+        trimmed = trim_char_spans_whitespace(converted, text)
         if not trimmed:
             continue
         char_spans.append(trimmed[0])

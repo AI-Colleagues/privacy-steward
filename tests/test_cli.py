@@ -370,10 +370,11 @@ def test_prediction_value_error_is_skipped(
     src = tmp_path / "notes.txt"
     src.write_text("Alice Johnson\n")
 
-    result = _invoke(cli_runner, str(src))
+    result = _invoke(cli_runner, str(src), "-v")
 
     assert result.exit_code == 0
     assert "cannot process" in result.output.lower()
     assert "decoded" in result.output
     assert "text mismatch" in result.output
+    assert "Audit records written" not in result.output
     assert not (tmp_path / "notes.redacted.txt").exists()
