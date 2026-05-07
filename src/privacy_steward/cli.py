@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 import time
+from importlib.metadata import PackageNotFoundError
+from importlib.metadata import version as _pkg_version
 from pathlib import Path
 from typing import Annotated
 import typer
@@ -30,6 +32,17 @@ app = typer.Typer(
     help="Redact PII from text files using openai/privacy-filter.",
     add_completion=False,
 )
+
+
+def _version_callback(value: bool) -> None:
+    if value:
+        try:
+            v = _pkg_version("privacy-steward")
+        except PackageNotFoundError:
+            v = "unknown"
+        typer.echo(f"privacy-steward {v}")
+        raise typer.Exit()
+
 
 _console = Console(stderr=False)
 _err = Console(stderr=True)
@@ -197,6 +210,15 @@ def redact_cmd(  # noqa: PLR0913
         str,
         typer.Option("--model", help="HuggingFace model ID."),
     ] = DEFAULT_MODEL,
+    version: Annotated[
+        bool,
+        typer.Option(
+            "--version",
+            callback=_version_callback,
+            is_eager=True,
+            help="Show version and exit.",
+        ),
+    ] = False,
 ) -> None:
     """Redact PII from INPUT_PATH (file or directory of .txt files).
 

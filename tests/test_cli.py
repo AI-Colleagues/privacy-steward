@@ -378,3 +378,25 @@ def test_prediction_value_error_is_skipped(
     assert "text mismatch" in result.output
     assert "Audit records written" not in result.output
     assert not (tmp_path / "notes.redacted.txt").exists()
+
+
+def test_version_flag_prints_package_version(cli_runner) -> None:
+    result = _invoke(cli_runner, "--version")
+
+    assert result.exit_code == 0
+    assert "privacy-steward" in result.output
+
+
+def test_version_flag_shows_unknown_when_package_not_found(
+    cli_runner, monkeypatch
+) -> None:
+    from importlib.metadata import PackageNotFoundError
+
+    def raise_not_found(name: str) -> str:
+        raise PackageNotFoundError(name)
+
+    monkeypatch.setattr(cli, "_pkg_version", raise_not_found)
+    result = _invoke(cli_runner, "--version")
+
+    assert result.exit_code == 0
+    assert "unknown" in result.output

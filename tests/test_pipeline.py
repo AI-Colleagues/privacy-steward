@@ -1120,3 +1120,123 @@ def test_ner_pipeline_predict_skips_empty_text(monkeypatch) -> None:
     monkeypatch.setattr(pipeline, "Decoder", FakeDecoderFactory)
     pipe = NERPipeline()
     assert pipe.predict("") == []
+
+
+def test_require_float_rejects_invalid_inputs() -> None:
+    assert pipeline._require_float(1, context="cfg", field="value") == 1.0
+    assert pipeline._require_float(1.5, context="cfg", field="value") == 1.5
+    with pytest.raises(ValueError, match="must be a number"):
+        pipeline._require_float(True, context="cfg", field="value")
+    with pytest.raises(ValueError, match="must be a number"):
+        pipeline._require_float("1.5", context="cfg", field="value")
+
+
+def test_token_spans_to_trimmed_scored_char_spans_skips_unconvertible() -> None:
+    # Token span with out-of-range indices gives empty converted list → line 1123 continue
+    result_spans, result_scores = pipeline._token_spans_to_trimmed_scored_char_spans(
+        token_spans=[(1, 10, 20)],
+        span_scores=[0.9],
+        char_starts=[0, 1, 2],
+        char_ends=[1, 2, 3],
+        text="abc",
+    )
+    assert result_spans == []
+    assert result_scores == []
+
+
+def test_collect_token_score_vectors_returns_empty_for_no_tokens() -> None:
+    # Empty token_ids → early return at line 1426
+    runtime = _runtime(label_path=[], transform=lambda text: text)
+    result = pipeline._collect_token_score_vectors(runtime, ())
+    assert result == []
+
+
+def test_collect_token_score_vectors_resets_non_positive_stride() -> None:
+    # bidirectional_context_size >= n_ctx → stride <= 0 → reset to n_ctx (line 1431)
+    runtime = InferenceRuntime(
+        model=FakeModel(label_path=[0, 0], num_labels=5),
+        encoding=FakeEncoding(),
+        label_info=_label_info(),
+        device=torch.device("cpu"),
+        n_ctx=2,
+        bidirectional_context_size=3,
+    )
+    result = pipeline._collect_token_score_vectors(runtime, (65, 66))
+    assert len(result) == 2
+
+
+def test_collect_token_score_vectors_processes_multiple_windows() -> None:
+    # 4 tokens with n_ctx=2, stride=2 → two windows, stride applied (line 1454)
+    runtime = InferenceRuntime(
+        model=FakeModel(label_path=[0, 0, 0, 0], num_labels=5),
+        encoding=FakeEncoding(),
+        label_info=_label_info(),
+        device=torch.device("cpu"),
+        n_ctx=2,
+        bidirectional_context_size=0,
+    )
+    result = pipeline._collect_token_score_vectors(runtime, (65, 66, 67, 68))
+    assert len(result) == 4
+
+
+def test_score_token_spans_skips_out_of_bounds_token_idx() -> None:
+    # Span references tokens beyond logprob matrix rows → line 1552 continue
+    token_logprobs = torch.tensor([[0.5, 0.3], [0.7, 0.2]])
+    decoded_labels = [0, 1, 0, 0]
+    token_spans = [(1, 2, 4)]  # tokens 2 and 3 are out of bounds (shape[0]=2)
+    scores = pipeline._score_token_spans(token_logprobs, decoded_labels, token_spans)
+    assert scores == [0.0]
+
+
+def test_score_token_spans_skips_out_of_bounds_label_idx() -> None:
+    # Valid token_idx but decoded label is out of range → line 1555 continue
+    token_logprobs = torch.tensor([[0.5, 0.3], [0.7, 0.2]])
+    decoded_labels = [0, 5]  # label 5 >= shape[1]=2
+    token_spans = [(1, 1, 2)]  # token_idx=1 valid, label_idx=5 invalid
+    scores = pipeline._score_token_spans(token_logprobs, decoded_labels, token_spans)
+    assert scores == [0.0]
+
+
+def test_ner_pipeline_predict_skips_entities_with_invalid_coordinates(
+    monkeypatch,
+) -> None:
+    fake_runtime = _runtime(label_path=[], transform=lambda text: text)
+
+    class FakeDecoderFactory:
+        def __init__(
+            self,
+            label_info: LabelInfo,
+            model_id: str = pipeline.DEFAULT_MODEL,
+        ) -> None:
+            self.label_info = label_info
+
+        def decode(self, token_logprobs: torch.Tensor) -> list[int]:
+            return []
+
+    monkeypatch.setattr(
+        pipeline,
+        "get_runtime",
+        lambda model_id=pipeline.DEFAULT_MODEL: fake_runtime,
+    )
+    monkeypatch.setattr(pipeline, "Decoder", FakeDecoderFactory)
+
+    # bool start triggers _require_int ValueError → lines 1658-1659 except/continue
+    # non-string entity type triggers → line 1662 continue
+    # valid entity passes through
+    bad_entities: list[dict[str, object]] = [
+        {"entity": "private_person", "start": True, "end": 3, "score": 0.9},
+        {"entity": 999, "start": 0, "end": 3, "score": 0.9},
+        {"entity": "private_person", "start": 0, "end": 3, "score": 0.9},
+    ]
+    monkeypatch.setattr(
+        pipeline,
+        "predict_text",
+        lambda runtime, text, decoder: (text, bad_entities),
+    )
+
+    pipe = NERPipeline()
+    spans = pipe.predict("abc")
+    assert len(spans) == 1
+    assert spans[0].entity_type == "private_person"
+    assert spans[0].start == 0
+    assert spans[0].end == 3

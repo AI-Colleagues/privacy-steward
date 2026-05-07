@@ -1,0 +1,110 @@
+CRM diary entry 1
+<PRIVATE_PERSON> spoke with <PRIVATE_PERSON> about onboarding.
+The contact said the best email is <PRIVATE_EMAIL> and the best phone is <PRIVATE_PHONE>.
+They asked us to send the welcome pack to <PRIVATE_ADDRESS> Lisbon.
+The account <ACCOUNT_NUMBER> should be linked with the onboarding page <PRIVATE_URL>.
+The planned private_date is <PRIVATE_DATE>; the temporary secret is <SECRET>.
+
+CRM diary entry 2
+<PRIVATE_PERSON> spoke with <PRIVATE_PERSON> about onboarding.
+The contact said the best email is <PRIVATE_EMAIL> and the best phone is <PRIVATE_PHONE>.
+They asked us to send the welcome pack to <PRIVATE_ADDRESS>.
+The account <ACCOUNT_NUMBER> should be linked with the onboarding page <PRIVATE_URL>.
+The planned private_date is <PRIVATE_DATE>; the temporary secret is vault-token-demo-19aa.
+
+CRM diary entry 3
+<PRIVATE_PERSON> spoke with <PRIVATE_PERSON> about onboarding.
+The contact said the best email is <PRIVATE_EMAIL> and the best phone is <PRIVATE_PHONE>.
+They asked us to send the welcome pack to <PRIVATE_ADDRESS>.
+The account <ACCOUNT_NUMBER> should be linked with the onboarding page <PRIVATE_URL>.
+The planned private_date is <PRIVATE_DATE>; the temporary secret is TEMP-PASS-8841.
+
+CRM diary entry 4
+<PRIVATE_PERSON> spoke with <PRIVATE_PERSON> about onboarding.
+The contact said the best email is <PRIVATE_EMAIL> and the best phone is <PRIVATE_PHONE>.
+They asked us to send the welcome pack to <PRIVATE_ADDRESS>.
+The account <ACCOUNT_NUMBER> should be linked with the onboarding page <PRIVATE_URL>.
+The planned private_date is <PRIVATE_DATE>; the temporary secret is <SECRET>.
+
+CRM diary entry 5
+<PRIVATE_PERSON> spoke with <PRIVATE_PERSON> about onboarding.
+The contact said the best email is <PRIVATE_EMAIL> and the best phone is <PRIVATE_PHONE>.
+They asked us to send the welcome pack to <PRIVATE_ADDRESS>.
+The account <ACCOUNT_NUMBER> should be linked with the onboarding page https://support.global-analytics.io/ticket/GA-5539.
+The planned private_date is <PRIVATE_DATE>; the temporary secret is <SECRET>.
+
+CRM diary entry 6
+<PRIVATE_PERSON> spoke with Eva Müller about onboarding.
+The contact said the best email is <PRIVATE_EMAIL> and the best phone is <PRIVATE_PHONE>.
+They asked us to send the welcome pack to <PRIVATE_ADDRESS>.
+The account <ACCOUNT_NUMBER> should be linked with the onboarding page https://support.global-analytics.io/ticket/GA-5539.
+The planned private_date is <PRIVATE_DATE>; the temporary secret is <SECRET>.
+
+CRM diary entry 7
+<PRIVATE_PERSON> spoke with <PRIVATE_PERSON> about onboarding.
+The contact said the best email is <PRIVATE_EMAIL> and the best phone is <PRIVATE_PHONE>.
+They asked us to send the welcome pack to <PRIVATE_ADDRESS>.
+The account <ACCOUNT_NUMBER> should be linked with the onboarding page <PRIVATE_URL>.
+The planned private_date is <PRIVATE_DATE>; the temporary secret is <SECRET>.
+
+CRM diary entry 8
+<PRIVATE_PERSON> spoke with <PRIVATE_PERSON> about onboarding.
+The contact said the best email is <PRIVATE_EMAIL> and the best phone is <PRIVATE_PHONE>.
+They asked us to send the welcome pack to <PRIVATE_ADDRESS>.
+The account <ACCOUNT_NUMBER> should be linked with the onboarding page <PRIVATE_URL>.
+The planned private_date is <PRIVATE_DATE>; the temporary secret is TEMP-PASS-8841.
+
+CRM diary entry 9
+<PRIVATE_PERSON> spoke with <PRIVATE_PERSON> about onboarding.
+The contact said the best email is <PRIVATE_EMAIL> and the best phone is <PRIVATE_PHONE>.
+They asked us to send the welcome pack to <PRIVATE_ADDRESS>.
+The account <ACCOUNT_NUMBER> should be linked with the onboarding page https://support.global-analytics.io/ticket/GA-5539.
+The planned private_date is <PRIVATE_DATE>; the temporary secret is vault-token-demo-19aa.
+
+CRM diary entry 10
+<PRIVATE_PERSON> spoke with <PRIVATE_PERSON> about onboarding.
+The contact said the best email is <PRIVATE_EMAIL> and the best phone is <PRIVATE_PHONE>.
+They asked us to send the welcome pack to <PRIVATE_ADDRESS>.
+The account <ACCOUNT_NUMBER> should be linked with the onboarding page https://secure.acme.com/customer/kp-2044.
+The planned private_date is <PRIVATE_DATE>; the temporary secret is otp_seed<ACCOUNT_NUMBER>.
+
+CRM diary entry 11
+<PRIVATE_PERSON> spoke with <PRIVATE_PERSON> about onboarding.
+The contact said the best email is <PRIVATE_EMAIL> and the best phone is <PRIVATE_PHONE>.
+They asked us to send the welcome pack to <PRIVATE_ADDRESS>.
+The account <ACCOUNT_NUMBER> should be linked with the onboarding page <PRIVATE_URL>.
+The planned private_date is <PRIVATE_DATE>; the temporary secret is vault-token-demo-19aa.
+
+CRM diary entry 12
+<PRIVATE_PERSON> spoke with <PRIVATE_PERSON> about onboarding.
+The contact said the best email is <PRIVATE_EMAIL> and the best phone is <PRIVATE_PHONE>.
+They asked us to send the welcome pack to <PRIVATE_ADDRESS>.
+The account <ACCOUNT_NUMBER> should be linked with the onboarding page <PRIVATE_URL>.
+The planned private_date is <PRIVATE_DATE>; the temporary secret is <SECRET>.
+
+CRM diary entry 13
+<PRIVATE_PERSON> spoke with <PRIVATE_PERSON> about onboarding.
+The contact said the best email is <PRIVATE_EMAIL> and the best phone is <PRIVATE_PHONE>.
+They asked us to send the welcome pack to <PRIVATE_ADDRESS>.
+The account <ACCOUNT_NUMBER> should be linked with the onboarding page <PRIVATE_URL>.
+The planned private_date is <PRIVATE_DATE>; the temporary secret is <SECRET>.
+
+CRM diary entry 14
+<PRIVATE_PERSON> spoke with <PRIVATE_PERSON> about onboarding.
+The contact said the best email is <PRIVATE_EMAIL> and the best phone is <PRIVATE_PHONE>.
+They asked us to send the welcome pack to <PRIVATE_ADDRESS>.
+The account <ACCOUNT_NUMBER> should be linked with the onboarding page <PRIVATE_URL>.
+The planned private_date is <PRIVATE_DATE>; the temporary secret is <SECRET>.
+
+CRM diary entry 15
+Henry Dubois spoke with <PRIVATE_PERSON> about onboarding.
+The contact said the best email is <PRIVATE_EMAIL> and the best phone is <PRIVATE_PHONE>.
+They asked us to send the welcome pack to <PRIVATE_ADDRESS>.
+The account <ACCOUNT_NUMBER> should be linked with the onboarding page <PRIVATE_URL>.
+The planned private_date is <PRIVATE_DATE>; the temporary secret is vault-token-demo-19aa.
+
+CRM diary entry 16
+<PRIVATE_PERSON> spoke with <PRIVATE_PERSON> about onboarding.
+The contact said the best email is <PRIVATE_EMAIL> and the best phone is <PRIVATE_PHONE>.
+They asked us to send the welcome pack to <PRIVATE_ADDRESS>.
+The account <ACCOUNT_NUMBER> should be linked with the onboarding page <PRIVATE_URL>.

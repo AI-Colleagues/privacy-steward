@@ -1,0 +1,109 @@
+Security incident report SIR-300
+Reporter: <PRIVATE_PERSON>
+The reporter noticed access to https://secure.acme.com/customer/kp-2044 on <PRIVATE_DATE>.
+Associated user email: <PRIVATE_EMAIL>.
+Associated phone: <PRIVATE_PHONE>.
+Associated address: <PRIVATE_ADDRESS>.
+Impacted account_number: <ACCOUNT_NUMBER>.
+Potentially exposed mock secret: TEMP-PASS-8841.
+Impact assessment: no real systems affected; synthetic record created for testing.
+Next step: rotate all placeholder credentials in the demonstration dataset.
+
+Security incident report SIR-301
+Reporter: <PRIVATE_PERSON>
+The reporter noticed access to <PRIVATE_URL> on <PRIVATE_DATE>.
+Associated user email: <PRIVATE_EMAIL>.
+Associated phone: <PRIVATE_PHONE>.
+Associated address: <PRIVATE_ADDRESS>.
+Impacted account_number: <ACCOUNT_NUMBER>.
+Potentially exposed mock secret: vault-token-demo-19aa.
+Impact assessment: no real systems affected; synthetic record created for testing.
+Next step: rotate all placeholder credentials in the demonstration dataset.
+
+Security incident report SIR-302
+Reporter: <PRIVATE_PERSON>
+The reporter noticed access to <PRIVATE_URL> on <PRIVATE_DATE>.
+Associated user email: <PRIVATE_EMAIL>.
+Associated phone: <PRIVATE_PHONE>.
+Associated address: <PRIVATE_ADDRESS>.
+Impacted account_number: <ACCOUNT_NUMBER>.
+Potentially exposed mock secret: vault-token-demo-19aa.
+Impact assessment: no real systems affected; synthetic record created for testing.
+Next step: rotate all placeholder credentials in the demonstration dataset.
+
+Security incident report SIR-303
+Reporter: <PRIVATE_PERSON>
+The reporter noticed access to <PRIVATE_URL> on <PRIVATE_DATE>.
+Associated user email: <PRIVATE_EMAIL>.
+Associated phone: <PRIVATE_PHONE>.
+Associated address: <PRIVATE_ADDRESS>.
+Impacted account_number: <ACCOUNT_NUMBER>.
+Potentially exposed mock secret: vault-token-demo-19aa.
+Impact assessment: no real systems affected; synthetic record created for testing.
+Next step: rotate all placeholder credentials in the demonstration dataset.
+
+Security incident report SIR-304
+Reporter: <PRIVATE_PERSON>
+The reporter noticed access to https://support.global-analytics.io/ticket/GA-5539 on 17 March 2026.
+Associated user email: <PRIVATE_EMAIL>.
+Associated phone: <PRIVATE_PHONE>.
+Associated address: <PRIVATE_ADDRESS>.
+Impacted account_number: <ACCOUNT_NUMBER>.
+Potentially exposed mock secret: <SECRET>.
+Impact assessment: no real systems affected; synthetic record created for testing.
+Next step: rotate all placeholder credentials in the demonstration dataset.
+
+Security incident report SIR-305
+Reporter: <PRIVATE_PERSON>
+The reporter noticed access to https://secure.acme.com/customer/kp-2044 on <PRIVATE_DATE>.
+Associated user email: <PRIVATE_EMAIL>.
+Associated phone: <PRIVATE_PHONE>.
+Associated address: <PRIVATE_ADDRESS>.
+Impacted account_number: <ACCOUNT_NUMBER>.
+Potentially exposed mock secret: TEMP-PASS-8841.
+Impact assessment: no real systems affected; synthetic record created for testing.
+Next step: rotate all placeholder credentials in the demonstration dataset.
+
+Security incident report SIR-306
+Reporter: <PRIVATE_PERSON>
+The reporter noticed access to <PRIVATE_URL> on <PRIVATE_DATE>.
+Associated user email: <PRIVATE_EMAIL>.
+Associated phone: <PRIVATE_PHONE>.
+Associated address: <PRIVATE_ADDRESS>.
+Impacted account_number: <ACCOUNT_NUMBER>.
+Potentially exposed mock secret: secret_phrase: <SECRET>.
+Impact assessment: no real systems affected; synthetic record created for testing.
+Next step: rotate all placeholder credentials in the demonstration dataset.
+
+Security incident report SIR-307
+Reporter: <PRIVATE_PERSON>
+The reporter noticed access to <PRIVATE_URL> on <PRIVATE_DATE>.
+Associated user email: <PRIVATE_EMAIL>.
+Associated phone: <PRIVATE_PHONE>.
+Associated address: <PRIVATE_ADDRESS>.
+Impacted account_number: <ACCOUNT_NUMBER>.
+Potentially exposed mock secret: secret_phrase: <SECRET>.
+Impact assessment: no real systems affected; synthetic record created for testing.
+Next step: rotate all placeholder credentials in the demonstration dataset.
+
+Security incident report SIR-308
+Reporter: <PRIVATE_PERSON>
+The reporter noticed access to <PRIVATE_URL> on <PRIVATE_DATE>.
+Associated user email: <PRIVATE_EMAIL>.
+Associated phone: <PRIVATE_PHONE>.
+Associated address: <PRIVATE_ADDRESS>.
+Impacted account_number: <ACCOUNT_NUMBER>.
+Potentially exposed mock secret: <SECRET>.
+Impact assessment: no real systems affected; synthetic record created for testing.
+Next step: rotate all placeholder credentials in the demonstration dataset.
+
+Security incident report SIR-309
+Reporter: <PRIVATE_PERSON>
+The reporter noticed access to <PRIVATE_URL> on <PRIVATE_DATE>.
+Associated user email: <PRIVATE_EMAIL>.
+Associated phone: <PRIVATE_PHONE>.
+Associated address: <PRIVATE_ADDRESS>.
+Impacted account_number: <ACCOUNT_NUMBER>.
+Potentially exposed mock secret: secret_phrase: <SECRET>.
+Impact assessment: no real systems affected; synthetic record created for testing.
+Next step: rotate all placeholder credentials in the demonstration dataset.

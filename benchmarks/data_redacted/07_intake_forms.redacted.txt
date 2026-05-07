@@ -1,0 +1,109 @@
+Client intake form 1
+Name: <PRIVATE_PERSON>
+Preferred contact: <PRIVATE_EMAIL> / <PRIVATE_PHONE>
+Home address: <PRIVATE_ADDRESS>
+Appointment date: <PRIVATE_DATE>
+Client portal: https://support.global-analytics.io/ticket/GA-5539
+Account number: <ACCOUNT_NUMBER>
+Reason for visit: routine administrative consultation in a fictional clinic.
+Check-in secret phrase: TEMP-PASS-8841
+Staff note: use this record only for mock PII detection testing.
+
+Client intake form 2
+Name: <PRIVATE_PERSON>
+Preferred contact: <PRIVATE_EMAIL> / <PRIVATE_PHONE>
+Home address: <PRIVATE_ADDRESS>
+Appointment date: <PRIVATE_DATE>
+Client portal: https://support.global-analytics.io/ticket/GA-5539
+Account number: <ACCOUNT_NUMBER>
+Reason for visit: routine administrative consultation in a fictional clinic.
+Check-in secret phrase: <SECRET>
+Staff note: use this record only for mock PII detection testing.
+
+Client intake form 3
+Name: <PRIVATE_PERSON>
+Preferred contact: <PRIVATE_EMAIL> / <PRIVATE_PHONE>
+Home address: <PRIVATE_ADDRESS>
+Appointment date: <PRIVATE_DATE>
+Client portal: <PRIVATE_URL>
+Account number: <ACCOUNT_NUMBER>
+Reason for visit: routine administrative consultation in a fictional clinic.
+Check-in secret phrase: secret_phrase: <SECRET>
+Staff note: use this record only for mock PII detection testing.
+
+Client intake form 4
+Name: <PRIVATE_PERSON>
+Preferred contact: <PRIVATE_EMAIL> / <PRIVATE_PHONE>
+Home address: <PRIVATE_ADDRESS>
+Appointment date: <PRIVATE_DATE>
+Client portal: <PRIVATE_URL>
+Account number: <ACCOUNT_NUMBER>
+Reason for visit: routine administrative consultation in a fictional clinic.
+Check-in secret phrase: <SECRET>
+Staff note: use this record only for mock PII detection testing.
+
+Client intake form 5
+Name: <PRIVATE_PERSON>
+Preferred contact: <PRIVATE_EMAIL> / <PRIVATE_PHONE>
+Home address: <PRIVATE_ADDRESS>
+Appointment date: <PRIVATE_DATE>
+Client portal: <PRIVATE_URL>
+Account number: <ACCOUNT_NUMBER>
+Reason for visit: routine administrative consultation in a fictional clinic.
+Check-in secret phrase: secret_phrase: <SECRET>
+Staff note: use this record only for mock PII detection testing.
+
+Client intake form 6
+Name: <PRIVATE_PERSON>
+Preferred contact: <PRIVATE_EMAIL> <PRIVATE_PHONE>
+Home address: <PRIVATE_ADDRESS>
+Appointment date: <PRIVATE_DATE>
+Client portal: <PRIVATE_URL>
+Account number: <ACCOUNT_NUMBER>
+Reason for visit: routine administrative consultation in a fictional clinic.
+Check-in secret phrase: secret_phrase: <SECRET>
+Staff note: use this record only for mock PII detection testing.
+
+Client intake form 7
+Name: <PRIVATE_PERSON>
+Preferred contact: <PRIVATE_EMAIL> / <PRIVATE_PHONE>
+Home address: <PRIVATE_ADDRESS>
+Appointment date: <PRIVATE_DATE>
+Client portal: <PRIVATE_URL>
+Account number: <ACCOUNT_NUMBER>
+Reason for visit: routine administrative consultation in a fictional clinic.
+Check-in secret phrase: TEMP-PASS-8841
+Staff note: use this record only for mock PII detection testing.
+
+Client intake form 8
+Name: <PRIVATE_PERSON>
+Preferred contact: <PRIVATE_EMAIL> / <PRIVATE_PHONE>
+Home address: <PRIVATE_ADDRESS>
+Appointment date: <PRIVATE_DATE>
+Client portal: <PRIVATE_URL>
+Account number: <ACCOUNT_NUMBER>
+Reason for visit: routine administrative consultation in a fictional clinic.
+Check-in secret phrase: <SECRET>
+Staff note: use this record only for mock PII detection testing.
+
+Client intake form 9
+Name: <PRIVATE_PERSON>
+Preferred contact: <PRIVATE_EMAIL> / <PRIVATE_PHONE>
+Home address: <PRIVATE_ADDRESS>
+Appointment date: <PRIVATE_DATE>
+Client portal: <PRIVATE_URL>
+Account number: <ACCOUNT_NUMBER>
+Reason for visit: routine administrative consultation in a fictional clinic.
+Check-in secret phrase: <SECRET>
+Staff note: use this record only for mock PII detection testing.
+
+Client intake form 10
+Name: <PRIVATE_PERSON>
+Preferred contact: <PRIVATE_EMAIL> / <PRIVATE_PHONE>
+Home address: <PRIVATE_ADDRESS>
+Appointment date: <PRIVATE_DATE>
+Client portal: <PRIVATE_URL>
+Account number: <ACCOUNT_NUMBER>
+Reason for visit: routine administrative consultation in a fictional clinic.
+Check-in secret phrase: TEMP-PASS-8841
+Staff note: use this record only for mock PII detection testing.

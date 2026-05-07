@@ -1,0 +1,109 @@
+Invoice INV-202600
+Bill to: <PRIVATE_PERSON>
+Private address: <PRIVATE_ADDRESS>
+Private email: <PRIVATE_EMAIL>
+Private phone: <PRIVATE_PHONE>
+Account number: <ACCOUNT_NUMBER>
+Payment link: <PRIVATE_URL>
+<PRIVATE_DATE>
+Internal secret: <SECRET>
+Line item: Mock workflow automation subscription — €758.00
+
+Invoice INV-202601
+Bill to: <PRIVATE_PERSON>
+Private address: <PRIVATE_ADDRESS>
+Private email: <PRIVATE_EMAIL>
+Private phone: <PRIVATE_PHONE>
+Account number: <ACCOUNT_NUMBER>
+Payment link: https://support.global-analytics.io/ticket/GA-5539
+Invoice date: <PRIVATE_DATE>
+Internal secret: <SECRET>
+Line item: Mock workflow automation subscription — €504.00
+
+Invoice INV-202602
+Bill to: <PRIVATE_PERSON>
+Private address: <PRIVATE_ADDRESS>
+Private email: <PRIVATE_EMAIL>
+Private phone: <PRIVATE_PHONE>
+Account number: <ACCOUNT_NUMBER>
+Payment link: <PRIVATE_URL>
+<PRIVATE_DATE>
+Internal secret: <SECRET>
+Line item: Mock workflow automation subscription — €425.00
+
+Invoice INV-202603
+Bill to: <PRIVATE_PERSON>
+Private address: <PRIVATE_ADDRESS>
+Private email: <PRIVATE_EMAIL>
+Private phone: <PRIVATE_PHONE>
+Account number: <ACCOUNT_NUMBER>
+Payment link: <PRIVATE_URL>
+<PRIVATE_DATE>
+Internal secret: <SECRET>
+Line item: Mock workflow automation subscription — €561.00
+
+Invoice INV-202604
+Bill to: <PRIVATE_PERSON>
+Private address: <PRIVATE_ADDRESS>
+Private email: <PRIVATE_EMAIL>
+Private phone: <PRIVATE_PHONE>
+Account number: <ACCOUNT_NUMBER>
+Payment link: <PRIVATE_URL>
+Invoice date: <PRIVATE_DATE>
+Internal secret: <SECRET>
+Line item: Mock workflow automation subscription — €613.00
+
+Invoice INV-202605
+Bill to: <PRIVATE_PERSON>
+Private address: <PRIVATE_ADDRESS>
+Private email: <PRIVATE_EMAIL>
+Private phone: <PRIVATE_PHONE>
+Account number: <ACCOUNT_NUMBER>
+Payment link: <PRIVATE_URL>
+<PRIVATE_DATE>
+Internal secret: secret_phrase: <SECRET>
+Line item: Mock workflow automation subscription — €138.00
+
+Invoice INV-202606
+Bill to: <PRIVATE_PERSON>
+Private address: <PRIVATE_ADDRESS>
+Private email: <PRIVATE_EMAIL>
+Private phone: <PRIVATE_PHONE>
+Account number: <ACCOUNT_NUMBER>
+Payment link: <PRIVATE_URL>
+<PRIVATE_DATE>
+Internal secret: <SECRET>
+Line item: Mock workflow automation subscription — €564.00
+
+Invoice INV-202607
+Bill to: <PRIVATE_PERSON>
+Private address: <PRIVATE_ADDRESS>
+Private email: <PRIVATE_EMAIL>
+Private phone: <PRIVATE_PHONE>
+Account number: <ACCOUNT_NUMBER>
+Payment link: <PRIVATE_URL>
+Invoice date: <PRIVATE_DATE>
+Internal secret: TEMP-PASS-8841
+Line item: Mock workflow automation subscription — €679.00
+
+Invoice INV-202608
+Bill to: <PRIVATE_PERSON>
+Private address: <PRIVATE_ADDRESS>
+Private email: <PRIVATE_EMAIL>
+Private phone: <PRIVATE_PHONE>
+Account number: <ACCOUNT_NUMBER>
+Payment link: <PRIVATE_URL>
+Invoice date: <PRIVATE_DATE>
+Internal secret: secret_phrase: <SECRET>
+Line item: Mock workflow automation subscription — €704.00
+
+Invoice INV-202609
+Bill to: <PRIVATE_PERSON>
+Private address: <PRIVATE_ADDRESS>
+Private email: <PRIVATE_EMAIL>
+Private phone: <PRIVATE_PHONE>
+Account number: <ACCOUNT_NUMBER>
+Payment link: <PRIVATE_URL>
+Invoice date: <PRIVATE_DATE>
+Internal secret: <SECRET>
+Line item: Mock workflow automation subscription — €376.00

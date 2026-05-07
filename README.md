@@ -4,7 +4,9 @@
 
 A CLI tool that redacts PII from plain-text files using the
 [`openai/privacy-filter`](https://huggingface.co/openai/privacy-filter) model via a native
-PyTorch implementation. All inference runs locally — no data ever leaves your machine.
+PyTorch implementation. **All inference runs locally** — no data ever leaves your machine,
+making it a natural fit for GDPR-regulated environments where personal data must not be
+transferred to external processors (Articles [25](https://gdpr-info.eu/art-25-gdpr/) and [44](https://gdpr-info.eu/art-44-gdpr/)).
 
 ---
 
@@ -38,11 +40,11 @@ uvx privacy-steward notes.txt
 Or install permanently to add `privacy-steward` to your PATH:
 
 ```bash
-uv tool install privacy-steward
+uv tool install -U privacy-steward
 ```
 
 First run downloads the `openai/privacy-filter` model weights and caches them in
-`~/.cache/huggingface/`. Subsequent runs are fully offline.
+`~/.cache/huggingface/hub/`. Subsequent runs are fully offline.
 
 > **Requirements:** Python 3.12 or later.
 
@@ -124,6 +126,7 @@ trail and can protect the `.audit/` directory accordingly.
 | `--verbose` | `-v` | off | Print per-file entity details alongside the progress bar |
 | `--include-text-in-audit` | | off | Include original matched text in audit JSON files |
 | `--model` | | `openai/privacy-filter` | HuggingFace model ID |
+| `--version` | | | Show version and exit |
 
 ---
 

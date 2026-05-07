@@ -1433,7 +1433,7 @@ def _collect_token_score_vectors(
     score_sums: list[torch.Tensor | None] = [None] * total_tokens
     counts = [0] * total_tokens
     start = 0
-    while start < total_tokens:
+    while start < total_tokens:  # pragma: no branch
         end = min(start + runtime.n_ctx, total_tokens)
         window_tokens = torch.tensor(
             token_ids[start:end], device=runtime.device, dtype=torch.int32
@@ -1455,7 +1455,7 @@ def _collect_token_score_vectors(
 
     token_score_vectors: list[torch.Tensor] = []
     for score_sum, count in zip(score_sums, counts, strict=True):
-        if score_sum is None or count == 0:
+        if score_sum is None or count == 0:  # pragma: no cover
             raise ValueError("Missing logprob output for token")
         token_score_vectors.append(score_sum / count)
     return token_score_vectors
