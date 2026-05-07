@@ -1,6 +1,7 @@
 """Input/output path resolution for file and directory modes."""
 
 from __future__ import annotations
+import os
 from pathlib import Path
 
 
@@ -23,6 +24,8 @@ def resolve(
         raise FileNotFoundError(f"Input path does not exist: {input_path}")
 
     if input_path.is_file():
+        if input_path.suffix != ".txt":
+            raise ValueError(f"File input must be a .txt file: {input_path}")
         if output_path is not None and output_path.exists() and output_path.is_dir():
             dest = output_path.resolve() / _default_file_dest(input_path).name
         else:
@@ -53,15 +56,8 @@ def output_root(pairs: list[tuple[Path, Path]]) -> Path:
     """Return the common parent directory of all destination paths."""
     if not pairs:
         raise ValueError("No file pairs to derive output root from.")
-    dests = [dest for _, dest in pairs]
-    if len(dests) == 1:
-        return dests[0].parent
-    # Walk up until we find a common parent
-    common = dests[0].parent
-    for dest in dests[1:]:
-        while common not in dest.parents and common != dest.parent:
-            common = common.parent
-    return common
+    dest_parents = [str(dest.parent) for _, dest in pairs]
+    return Path(os.path.commonpath(dest_parents))
 
 
 def _default_file_dest(src: Path) -> Path:

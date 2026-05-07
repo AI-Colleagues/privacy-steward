@@ -99,6 +99,22 @@ def test_single_file_audit_dir_created(cli_runner, monkeypatch, tmp_path: Path) 
     data = json.loads(audit_files[0].read_text())
     assert data["source"] == str(src.resolve())
     assert data["entities"]
+    assert "word" not in data["entities"][0]
+
+
+def test_single_file_include_text_in_audit_flag(
+    cli_runner, monkeypatch, tmp_path: Path
+) -> None:
+    monkeypatch.setattr(cli, "NERPipeline", FakePipeline)
+    src = tmp_path / "notes.txt"
+    src.write_text(SAMPLE.read_text())
+
+    result = _invoke(cli_runner, str(src), "--include-text-in-audit")
+
+    assert result.exit_code == 0
+    audit_file = next((tmp_path / ".audit").rglob("*.audit.json"))
+    data = json.loads(audit_file.read_text())
+    assert data["entities"][0]["word"]
 
 
 def test_single_file_dry_run_writes_nothing(

@@ -28,17 +28,31 @@ def test_write_audit_uses_destination_relative_to_output_root(tmp_path: Path) ->
     assert payload["source"] == str(src)
     assert payload["destination"] == str(dest)
     assert payload["entities"][0]["entity_type"] == "private_person"
+    assert "word" not in payload["entities"][0]
+
+
+def test_write_audit_can_include_source_text(tmp_path: Path) -> None:
+    src = tmp_path / "notes.txt"
+    dest = tmp_path / "out" / "notes.redacted.txt"
+    out_root = tmp_path / "out"
+    audit_root = out_root / ".audit"
+
+    write_audit(src, [_span(0, 5)], audit_root, out_root, dest, include_text=True)
+
+    audit_file = audit_root / "notes.audit.json"
+    payload = json.loads(audit_file.read_text())
+    assert payload["entities"][0]["word"] == "x"
 
 
 def test_write_audit_falls_back_when_destination_is_external(tmp_path: Path) -> None:
     src = tmp_path / "notes.txt"
-    dest = tmp_path / "orphan.redacted.txt"
+    dest = tmp_path / "my.redacted.data.redacted.txt"
     out_root = tmp_path / "out"
     audit_root = out_root / ".audit"
 
     write_audit(src, [_span(0, 5)], audit_root, out_root, dest)
 
-    audit_file = audit_root / "orphan.audit.json"
+    audit_file = audit_root / "my.redacted.data.audit.json"
     assert audit_file.exists()
 
 

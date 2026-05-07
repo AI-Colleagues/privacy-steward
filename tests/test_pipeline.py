@@ -6,7 +6,6 @@ from pathlib import Path
 import pytest
 import torch
 from privacy_steward import pipeline
-from privacy_steward.models import EntitySpan
 from privacy_steward.pipeline import (
     AttentionBlock,
     Checkpoint,
@@ -18,7 +17,6 @@ from privacy_steward.pipeline import (
     NERPipeline,
     RotaryEmbedding,
     Transformer,
-    build_redacted_text,
     expert_linear,
     get_runtime,
     get_viterbi_transition_biases,
@@ -142,6 +140,7 @@ def _runtime(
         label_info=_label_info(),
         device=torch.device("cpu"),
         n_ctx=n_ctx,
+        bidirectional_context_size=1,
     )
 
 
@@ -636,6 +635,7 @@ def test_trim_char_spans_whitespace_variants() -> None:
 
 
 def test_get_runtime_success(monkeypatch, tmp_path: Path) -> None:
+    monkeypatch.setattr(pipeline.tiktoken, "get_encoding", lambda name: FakeEncoding())
     model_dir = tmp_path / "original"
     model_dir.mkdir()
     (model_dir / "config.json").write_text(json.dumps(_valid_config()))
@@ -704,6 +704,7 @@ def test_get_runtime_rejects_invalid_config_payload(
 def test_get_runtime_rejects_missing_background_label(
     monkeypatch, tmp_path: Path
 ) -> None:
+    monkeypatch.setattr(pipeline.tiktoken, "get_encoding", lambda name: FakeEncoding())
     model_dir = tmp_path / "original"
     model_dir.mkdir()
     (model_dir / "config.json").write_text(json.dumps(_valid_config()))
@@ -722,6 +723,7 @@ def test_get_runtime_rejects_missing_background_label(
 def test_get_runtime_rejects_incomplete_boundary_sets(
     monkeypatch, tmp_path: Path
 ) -> None:
+    monkeypatch.setattr(pipeline.tiktoken, "get_encoding", lambda name: FakeEncoding())
     model_dir = tmp_path / "original"
     model_dir.mkdir()
     (model_dir / "config.json").write_text(json.dumps(_valid_config()))
@@ -913,13 +915,20 @@ def test_transformer_forward_small_and_chunked(monkeypatch) -> None:
     assert long_logits.shape == (33, 33)
 
 
-def test_predict_text_success_and_mismatch_source() -> None:
-    runtime = _runtime(label_path=[1, 2, 3], transform=lambda text: text.lower())
+def test_predict_text_success_includes_scores() -> None:
+    runtime = _runtime(label_path=[1, 2, 3], transform=lambda text: text)
     decoder = FakeDecoder(runtime.label_info, decoded_path=[1, 2, 3])
 
     source_text, detected = predict_text(runtime, "Abc", decoder)
-    assert source_text == "abc"
-    assert detected == [{"entity": "private_person", "start": 0, "end": 3}]
+    assert source_text == "Abc"
+    assert detected == [
+        {
+            "entity": "private_person",
+            "start": 0,
+            "end": 3,
+            "score": pytest.approx(1.0),
+        }
+    ]
 
 
 def test_predict_text_empty_and_invalid_runtime() -> None:
@@ -944,11 +953,18 @@ def test_predict_text_handles_empty_score_vectors(monkeypatch) -> None:
 
 
 def test_predict_text_falls_back_when_decoder_length_mismatches() -> None:
-    runtime = _runtime(label_path=[1, 2, 3], transform=lambda text: text.lower())
+    runtime = _runtime(label_path=[1, 2, 3], transform=lambda text: text)
     decoder = FakeDecoder(runtime.label_info, decoded_path=[1])
     source_text, detected = predict_text(runtime, "Abc", decoder)
-    assert source_text == "abc"
-    assert detected == [{"entity": "private_person", "start": 0, "end": 3}]
+    assert source_text == "Abc"
+    assert detected == [
+        {
+            "entity": "private_person",
+            "start": 0,
+            "end": 3,
+            "score": pytest.approx(1.0),
+        }
+    ]
 
 
 def test_predict_text_rejects_char_length_mismatch(monkeypatch) -> None:
@@ -964,6 +980,14 @@ def test_predict_text_rejects_char_length_mismatch(monkeypatch) -> None:
         predict_text(runtime, "a", decoder)
 
 
+def test_predict_text_rejects_decoded_text_mismatch() -> None:
+    runtime = _runtime(label_path=[4], transform=lambda text: "x")
+    decoder = FakeDecoder(runtime.label_info, [4])
+
+    with pytest.raises(ValueError, match="Decoded token text differs"):
+        predict_text(runtime, "y", decoder)
+
+
 def test_collect_token_score_vectors_rejects_length_mismatch(monkeypatch) -> None:
     runtime = _runtime(label_path=[1], transform=lambda text: text)
 
@@ -977,6 +1001,7 @@ def test_collect_token_score_vectors_rejects_length_mismatch(monkeypatch) -> Non
         label_info=runtime.label_info,
         device=runtime.device,
         n_ctx=runtime.n_ctx,
+        bidirectional_context_size=runtime.bidirectional_context_size,
     )
 
     with pytest.raises(ValueError, match="Logprob output length"):
@@ -990,30 +1015,9 @@ def test_build_detected_entities_skips_invalid_spans() -> None:
         "abc",
         [(1, 0, 2), (1, 2, 5)],
     )
-    assert detected == [{"entity": "private_person", "start": 0, "end": 2}]
-
-
-def test_build_redacted_text_handles_entities_and_skips_invalid_entries() -> None:
-    text = "Alice and Bob met Carol at dusk."
-    entities = [
-        {"start": 10, "end": 13, "entity": "private_person"},
-        {"start": 0, "end": 5, "entity": "private_person"},
-        {"start": 12, "end": 14, "entity": "private_person"},
-        {"start": 15.0, "end": 19.0, "entity": "private_person"},
-        {"start": 20, "end": 25, "entity": 123},
-        {"start": 26, "end": 30, "entity": "mystery"},
-        {"start": 100, "end": 110, "entity": "mystery"},
+    assert detected == [
+        {"entity": "private_person", "start": 0, "end": 2, "score": 1.0}
     ]
-
-    result = build_redacted_text(text, entities)
-    assert result.count("[PERSON]") == 2
-    assert "[REDACTED]" in result
-    assert "Alice" not in result
-
-
-def test_build_redacted_text_empty_inputs_return_original() -> None:
-    assert build_redacted_text("", []) == ""
-    assert build_redacted_text("plain text", []) == "plain text"
 
 
 def test_ner_pipeline_passes_model_id_to_runtime_and_decoder(monkeypatch) -> None:
@@ -1066,9 +1070,12 @@ def test_ner_pipeline_predict_uses_model_output(monkeypatch) -> None:
     monkeypatch.setattr(pipeline, "Decoder", FakeDecoderFactory)
     pipe = NERPipeline()
     spans = pipe.predict("abc")
-    assert spans == [
-        EntitySpan(start=0, end=3, entity_type="private_person", score=1.0, word="abc")
-    ]
+    assert len(spans) == 1
+    assert spans[0].start == 0
+    assert spans[0].end == 3
+    assert spans[0].entity_type == "private_person"
+    assert spans[0].score == pytest.approx(1.0)
+    assert spans[0].word == "abc"
 
 
 def test_ner_pipeline_predict_skips_empty_text(monkeypatch) -> None:

@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import TypedDict
 from privacy_steward.models import EntitySpan
 from privacy_steward.pipeline import DEFAULT_MODEL
 
@@ -14,6 +15,8 @@ def write_audit(
     audit_root: Path,
     out_root: Path,
     dest: Path,
+    *,
+    include_text: bool = False,
 ) -> None:
     """Write per-file classification result to *audit_root*.
 
@@ -25,32 +28,45 @@ def write_audit(
     except ValueError:
         rel = Path(dest.name)
 
-    # Strip the ".redacted" portion added by the resolver
-    original_stem = rel.stem.replace(".redacted", "")
+    # Strip the trailing ".redacted" portion added by the resolver.
+    original_stem = rel.stem.removesuffix(".redacted")
     audit_path = audit_root / rel.parent / f"{original_stem}.audit.json"
     audit_path.parent.mkdir(parents=True, exist_ok=True)
+
+    entities: list[dict[str, object]] = []
+    for span in spans:
+        entity: dict[str, object] = {
+            "start": span.start,
+            "end": span.end,
+            "entity_type": span.entity_type,
+            "score": round(span.score, 6),
+        }
+        if include_text:
+            entity["word"] = span.word
+        entities.append(entity)
 
     payload = {
         "source": str(src),
         "destination": str(dest),
-        "entities": [
-            {
-                "start": s.start,
-                "end": s.end,
-                "entity_type": s.entity_type,
-                "score": round(s.score, 6),
-                "word": s.word,
-            }
-            for s in spans
-        ],
+        "entities": entities,
     }
     audit_path.write_text(
         json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8"
     )
 
 
+class RedactionResult(TypedDict):
+    """Per-file redaction summary emitted by the CLI."""
+
+    source: str
+    destination: str
+    entity_counts: dict[str, int]
+    total_entities: int
+    elapsed_seconds: float
+
+
 def write_summary_report(
-    results: list[dict],  # list of per-file result dicts built in cli.py
+    results: list[RedactionResult],
     out_root: Path,
     model_id: str = DEFAULT_MODEL,
 ) -> Path:

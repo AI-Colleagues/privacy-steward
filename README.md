@@ -51,8 +51,11 @@ First run downloads the `openai/privacy-filter` model weights and caches them in
 ## Quick start
 
 ```bash
-# Redact a single file (output: notes.redacted.txt alongside the source)
+# Redact a single .txt file (output: notes.redacted.txt alongside the source)
 privacy-steward notes.txt
+
+# Write a single-file result into an existing output directory
+privacy-steward notes.txt --output ./clean/
 
 # Redact an entire directory of .txt files, write to a custom output location
 privacy-steward ./corpus/ --output ./corpus_clean/
@@ -85,8 +88,9 @@ Pass `--placeholder` to override: any literal string, or use `{entity_type}` for
 
 ### Output layout
 
-For a directory input the redacted files mirror the source tree, and an `.audit/`
-directory is always created alongside them:
+For a single-file input, the input must be a `.txt` file. For a directory input,
+redacted `.txt` files mirror the source tree, non-`.txt` files are skipped, and an
+`.audit/` directory is always created alongside the redacted outputs:
 
 ```
 corpus_clean/
@@ -95,14 +99,17 @@ corpus_clean/
 ├── subdir/
 │   └── chapter3.redacted.txt
 └── .audit/
-    ├── chapter1.audit.json    ← raw entity spans for auditing
+    ├── chapter1.audit.json    ← offsets, labels, and scores for auditing
     ├── chapter2.audit.json
     └── subdir/
         └── chapter3.audit.json
 ```
 
 Each audit JSON records the source path, destination path, and every detected span
-(character offsets, entity type, confidence score, surface form).
+(character offsets, entity type, and confidence score). To avoid re-exposing the PII
+that was just redacted, audit records omit the original matched text by default. Pass
+`--include-text-in-audit` only when you intentionally need surface forms in the audit
+trail and can protect the `.audit/` directory accordingly.
 
 ---
 
@@ -115,6 +122,7 @@ Each audit JSON records the source path, destination path, and every detected sp
 | `--report` | | off | Write `redaction_report.json` to output dir |
 | `--dry-run` | | off | Show what would be redacted without writing files |
 | `--verbose` | `-v` | off | Print per-file entity details alongside the progress bar |
+| `--include-text-in-audit` | | off | Include original matched text in audit JSON files |
 | `--model` | | `openai/privacy-filter` | HuggingFace model ID |
 
 ---

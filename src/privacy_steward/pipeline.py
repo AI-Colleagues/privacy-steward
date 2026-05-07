@@ -59,16 +59,6 @@ SPAN_CLASS_NAMES: Final[tuple[str, ...]] = (
     "private_url",
     "secret",
 )
-REDACTION_LABEL_MAP: Final[dict[str, str]] = {
-    "account_number": "[ACCOUNT_NUMBER]",
-    "private_address": "[ADDRESS]",
-    "private_date": "[DATE]",
-    "private_email": "[EMAIL]",
-    "private_person": "[PERSON]",
-    "private_phone": "[PHONE]",
-    "private_url": "[URL]",
-    "secret": "[SECRET]",
-}
 NER_CLASS_NAMES: Final[tuple[str, ...]] = (BACKGROUND_CLASS_LABEL,) + tuple(
     f"{prefix}-{base_label}"
     for base_label in SPAN_CLASS_NAMES
@@ -573,8 +563,8 @@ class RotaryEmbedding(torch.nn.Module):
         sin_cache: torch.Tensor
         if num_tokens > self.cos_cache.shape[0]:
             cos, sin = self._compute_cos_sin(num_tokens, device=torch.device("cpu"))
-            self.cos_cache = cos.to(query.device)
-            self.sin_cache = sin.to(query.device)
+            self.register_buffer("cos_cache", cos.to(query.device), persistent=False)
+            self.register_buffer("sin_cache", sin.to(query.device), persistent=False)
         if self.cos_cache.device != query.device:
             cos_cache = self.cos_cache.to(query.device)
             sin_cache = self.sin_cache.to(query.device)
@@ -1126,6 +1116,7 @@ class InferenceRuntime:
     label_info: LabelInfo
     device: torch.device
     n_ctx: int
+    bidirectional_context_size: int
 
 
 @functools.lru_cache(maxsize=8)
@@ -1186,6 +1177,7 @@ def get_runtime(model_id: str = DEFAULT_MODEL) -> InferenceRuntime:
     )
     ner_class_names = NER_CLASS_NAMES
     n_ctx = int(checkpoint_config["default_n_ctx"])
+    bidirectional_context_size = int(checkpoint_config["bidirectional_left_context"])
 
     encoding = tiktoken.get_encoding(str(checkpoint_config["encoding"]).strip())
     span_class_names: list[str] = [BACKGROUND_CLASS_LABEL]
@@ -1236,6 +1228,7 @@ def get_runtime(model_id: str = DEFAULT_MODEL) -> InferenceRuntime:
         label_info=label_info,
         device=device,
         n_ctx=n_ctx,
+        bidirectional_context_size=bidirectional_context_size,
     )
 
 
@@ -1398,10 +1391,27 @@ def _collect_token_score_vectors(
     runtime: InferenceRuntime,
     token_ids: tuple[int, ...],
 ) -> list[torch.Tensor]:
-    """Compute per-token log-probability vectors for the full text."""
-    token_score_vectors: list[torch.Tensor] = []
-    for start in range(0, len(token_ids), runtime.n_ctx):
-        end = min(start + runtime.n_ctx, len(token_ids))
+    """Compute per-token log-probability vectors for the full text.
+
+    Long inputs are evaluated with overlapping windows so tokens near a chunk
+    boundary retain bidirectional context from neighbouring tokens. Tokens
+    covered by multiple windows receive the mean of their log-probability
+    vectors.
+    """
+    total_tokens = len(token_ids)
+    if total_tokens == 0:
+        return []
+
+    context_size = max(0, int(runtime.bidirectional_context_size))
+    stride = runtime.n_ctx - context_size
+    if stride <= 0:
+        stride = runtime.n_ctx
+
+    score_sums: list[torch.Tensor | None] = [None] * total_tokens
+    counts = [0] * total_tokens
+    start = 0
+    while start < total_tokens:
+        end = min(start + runtime.n_ctx, total_tokens)
         window_tokens = torch.tensor(
             token_ids[start:end], device=runtime.device, dtype=torch.int32
         )
@@ -1409,7 +1419,22 @@ def _collect_token_score_vectors(
         log_probs = functional.log_softmax(logits.float(), dim=-1)
         if log_probs.shape[0] != window_tokens.shape[0]:
             raise ValueError("Logprob output length does not match window length")
-        token_score_vectors.extend(log_probs.unbind(0))
+
+        for offset, log_prob in enumerate(log_probs.unbind(0)):
+            token_idx = start + offset
+            current = score_sums[token_idx]
+            score_sums[token_idx] = log_prob if current is None else current + log_prob
+            counts[token_idx] += 1
+
+        if end == total_tokens:
+            break
+        start += stride
+
+    token_score_vectors: list[torch.Tensor] = []
+    for score_sum, count in zip(score_sums, counts, strict=True):
+        if score_sum is None or count == 0:
+            raise ValueError("Missing logprob output for token")
+        token_score_vectors.append(score_sum / count)
     return token_score_vectors
 
 
@@ -1462,10 +1487,11 @@ def _build_detected_entities(
     runtime: InferenceRuntime,
     source_text: str,
     predicted_char_spans: Sequence[tuple[int, int, int]],
+    span_scores: Sequence[float] | None = None,
 ) -> list[dict[str, object]]:
     """Convert span tuples into the public entity payload."""
     detected: list[dict[str, object]] = []
-    for label_idx, start, end in predicted_char_spans:
+    for idx, (label_idx, start, end) in enumerate(predicted_char_spans):
         if not (0 <= start < end <= len(source_text)):
             continue
         label = (
@@ -1473,14 +1499,44 @@ def _build_detected_entities(
             if 0 <= label_idx < len(runtime.label_info.span_class_names)
             else f"label_{label_idx}"
         )
+        score = (
+            span_scores[idx]
+            if span_scores is not None and idx < len(span_scores)
+            else 1.0
+        )
         detected.append(
             {
                 "entity": label,
                 "start": int(start),
                 "end": int(end),
+                "score": float(score),
             }
         )
     return detected
+
+
+def _score_token_spans(
+    token_logprobs: torch.Tensor,
+    decoded_labels: Sequence[int],
+    token_spans: Sequence[tuple[int, int, int]],
+) -> list[float]:
+    """Return one confidence score per decoded token span."""
+    span_scores: list[float] = []
+    for _label_idx, start, end in token_spans:
+        selected_logprobs: list[torch.Tensor] = []
+        for token_idx in range(start, end):
+            if not 0 <= token_idx < token_logprobs.shape[0]:
+                continue
+            label_idx = int(decoded_labels[token_idx])
+            if not 0 <= label_idx < token_logprobs.shape[1]:
+                continue
+            selected_logprobs.append(token_logprobs[token_idx, label_idx])
+        if not selected_logprobs:
+            span_scores.append(0.0)
+            continue
+        mean_logprob = torch.stack(selected_logprobs).mean()
+        span_scores.append(float(mean_logprob.exp().clamp(0.0, 1.0).item()))
+    return span_scores
 
 
 @torch.inference_mode()
@@ -1527,54 +1583,27 @@ def predict_text(
             "Character length mismatch for decoded text "
             f"(tokens={char_ends[-1]}, text={len(decoded_text)})"
         )
-    decoded_mismatch = decoded_text != text
-    source_text = decoded_text if decoded_mismatch else text
+    if decoded_text != text:
+        raise ValueError(
+            "Decoded token text differs from input text; cannot safely map spans "
+            "back to original input"
+        )
+    source_text = text
+    span_scores = _score_token_spans(
+        stacked_scores,
+        decoded_labels,
+        predicted_token_spans,
+    )
     predicted_char_spans = token_spans_to_char_spans(
         predicted_token_spans,
         char_starts,
         char_ends,
     )
     predicted_char_spans = trim_char_spans_whitespace(predicted_char_spans, source_text)
-    detected = _build_detected_entities(runtime, source_text, predicted_char_spans)
+    detected = _build_detected_entities(
+        runtime, source_text, predicted_char_spans, span_scores
+    )
     return source_text, detected
-
-
-def build_redacted_text(text: str, entities: Sequence[dict[str, object]]) -> str:
-    """Replace detected entity ranges with label-specific redaction markers."""
-    if not text or not entities:
-        return text
-
-    redacted_parts: list[str] = []
-    cursor = 0
-    sorted_entities: list[tuple[int, int, dict[str, object]]] = []
-    for entity in entities:
-        try:
-            start_raw = _require_int(
-                entity.get("start"), context="redaction entity", field="start"
-            )
-            end_raw = _require_int(
-                entity.get("end"), context="redaction entity", field="end"
-            )
-        except ValueError:
-            continue
-        sorted_entities.append((start_raw, end_raw, entity))
-    sorted_entities.sort(key=lambda item: (item[0], item[1]))
-    for start_raw, end_raw, entity in sorted_entities:
-        label_raw = entity.get("entity")
-        if not isinstance(label_raw, str):
-            continue
-        if start_raw < cursor or start_raw >= end_raw:
-            continue
-        start = max(0, min(start_raw, len(text)))
-        end = max(0, min(end_raw, len(text)))
-        if start < cursor or start >= end:
-            continue
-        redacted_parts.append(text[cursor:start])
-        replacement = REDACTION_LABEL_MAP.get(label_raw, "[REDACTED]")
-        redacted_parts.append(replacement)
-        cursor = end
-    redacted_parts.append(text[cursor:])
-    return "".join(redacted_parts)
 
 
 class NERPipeline:
@@ -1604,12 +1633,19 @@ class NERPipeline:
             entity_type_raw = entity.get("entity")
             if not isinstance(entity_type_raw, str):
                 continue
+            score_raw = entity.get("score")
+            score = (
+                float(score_raw)
+                if isinstance(score_raw, int | float)
+                and not isinstance(score_raw, bool)
+                else 1.0
+            )
             spans.append(
                 EntitySpan(
                     start=start,
                     end=end,
                     entity_type=entity_type_raw,
-                    score=1.0,
+                    score=score,
                     word=source_text[start:end],
                 )
             )
