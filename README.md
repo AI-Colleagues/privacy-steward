@@ -31,7 +31,7 @@ practitioners who need to sanitise datasets at scale:
 
 ## Installation
 
-No installation required — run directly with `uvx`:
+No installation required — run directly with `uvx` (part of [uv](https://docs.astral.sh/uv/getting-started/installation/)):
 
 ```bash
 uvx privacy-steward notes.txt
