@@ -115,7 +115,12 @@ def _process_file(
         _err.print(f"[red]Error:[/red] cannot decode {src} as UTF-8: {exc}")
         return None
 
-    spans = pipe.predict(text)
+    try:
+        spans = pipe.predict(text)
+    except ValueError as exc:
+        _err.print(f"[red]Error:[/red] cannot process {src}: {exc}")
+        return None
+
     redacted_text = redact(text, spans, placeholder)
     elapsed = time.perf_counter() - t0
 

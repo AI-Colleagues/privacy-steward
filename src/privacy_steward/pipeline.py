@@ -1107,6 +1107,32 @@ def trim_char_spans_whitespace(
     return trimmed
 
 
+def _token_spans_to_trimmed_scored_char_spans(
+    token_spans: Sequence[tuple[int, int, int]],
+    span_scores: Sequence[float],
+    char_starts: Sequence[int],
+    char_ends: Sequence[int],
+    text: str,
+) -> tuple[list[tuple[int, int, int]], list[float]]:
+    """Map token spans to trimmed character spans while keeping scores aligned."""
+    char_spans: list[tuple[int, int, int]] = []
+    aligned_scores: list[float] = []
+    for idx, (label_idx, token_start, token_end) in enumerate(token_spans):
+        if not (0 <= token_start < token_end <= len(char_starts)):
+            continue
+        char_start = char_starts[token_start]
+        char_end = char_ends[token_end - 1]
+        if char_end <= char_start:
+            continue
+
+        trimmed = trim_char_spans_whitespace([(label_idx, char_start, char_end)], text)
+        if not trimmed:
+            continue
+        char_spans.append(trimmed[0])
+        aligned_scores.append(span_scores[idx] if idx < len(span_scores) else 1.0)
+    return char_spans, aligned_scores
+
+
 @dataclass(frozen=True)
 class InferenceRuntime:
     """Runtime bundle containing the loaded model and tokenization state."""
@@ -1594,14 +1620,18 @@ def predict_text(
         decoded_labels,
         predicted_token_spans,
     )
-    predicted_char_spans = token_spans_to_char_spans(
+    (
+        predicted_char_spans,
+        aligned_span_scores,
+    ) = _token_spans_to_trimmed_scored_char_spans(
         predicted_token_spans,
+        span_scores,
         char_starts,
         char_ends,
+        source_text,
     )
-    predicted_char_spans = trim_char_spans_whitespace(predicted_char_spans, source_text)
     detected = _build_detected_entities(
-        runtime, source_text, predicted_char_spans, span_scores
+        runtime, source_text, predicted_char_spans, aligned_span_scores
     )
     return source_text, detected
 

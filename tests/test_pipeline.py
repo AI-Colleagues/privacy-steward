@@ -988,6 +988,26 @@ def test_predict_text_rejects_decoded_text_mismatch() -> None:
         predict_text(runtime, "y", decoder)
 
 
+def test_predict_text_keeps_scores_aligned_when_whitespace_span_is_dropped(
+    monkeypatch,
+) -> None:
+    runtime = _runtime(label_path=[4, 1, 2, 2, 2, 3], transform=lambda text: text)
+    decoder = FakeDecoder(runtime.label_info, decoded_path=[4, 1, 2, 2, 2, 3])
+    monkeypatch.setattr(pipeline, "_score_token_spans", lambda *args: [0.25, 0.75])
+
+    source_text, detected = predict_text(runtime, " Alice", decoder)
+
+    assert source_text == " Alice"
+    assert detected == [
+        {
+            "entity": "private_person",
+            "start": 1,
+            "end": 6,
+            "score": pytest.approx(0.75),
+        }
+    ]
+
+
 def test_collect_token_score_vectors_rejects_length_mismatch(monkeypatch) -> None:
     runtime = _runtime(label_path=[1], transform=lambda text: text)
 

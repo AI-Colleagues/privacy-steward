@@ -357,3 +357,23 @@ def test_invalid_utf8_input_is_skipped(cli_runner, monkeypatch, tmp_path: Path) 
 
     assert result.exit_code == 0
     assert "cannot decode" in result.output.lower()
+
+
+def test_prediction_value_error_is_skipped(
+    cli_runner, monkeypatch, tmp_path: Path
+) -> None:
+    class RaisingPredictPipeline(FakePipeline):
+        def predict(self, text: str) -> list[EntitySpan]:
+            raise ValueError("decoded text mismatch")
+
+    monkeypatch.setattr(cli, "NERPipeline", RaisingPredictPipeline)
+    src = tmp_path / "notes.txt"
+    src.write_text("Alice Johnson\n")
+
+    result = _invoke(cli_runner, str(src))
+
+    assert result.exit_code == 0
+    assert "cannot process" in result.output.lower()
+    assert "decoded" in result.output
+    assert "text mismatch" in result.output
+    assert not (tmp_path / "notes.redacted.txt").exists()
