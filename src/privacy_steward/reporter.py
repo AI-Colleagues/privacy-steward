@@ -51,7 +51,7 @@ def write_audit(
         "entities": entities,
     }
     audit_path.write_text(
-        json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8"
+        json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
     )
 
 
@@ -87,6 +87,6 @@ def write_summary_report(
     report_path = out_root / "redaction_report.json"
     report_path.parent.mkdir(parents=True, exist_ok=True)
     report_path.write_text(
-        json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8"
+        json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
     )
     return report_path
